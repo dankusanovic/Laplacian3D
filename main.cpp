@@ -28,7 +28,7 @@
 
   #include <fstream>
   #include "setAnalysis.hh"
-  //#include "setModelData.hh"
+  #include "setModelData.hh"
 
    int main(int argc, char** argv){
 
@@ -38,11 +38,11 @@
      int Nnodes, Nelems, Ngauss;
 
      double **Coordinates;
-     //double **Elements;
-     //double **GaussPoints;
+     double **Elements;
+     double **GaussPoints;
 
      setAnalysis(argc,argv,PATH,ITER);
-     //setModelData(PATH,Coordinates,Elements,Nnodes,Nelems);
+     setModelData(PATH,Coordinates,Elements,Nnodes,Nelems);
 
 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -91,11 +91,11 @@
           delete[] Coordinates[i]; 
      }
      delete[] Coordinates;
-/*
+
      for (int i = 0; i < Nelems; i++){
           delete[] Elements[i]; 
      }
-     delete[] Elements;*/
+     delete[] Elements;
 
      //delete[] GaussPoints;
 

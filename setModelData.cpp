@@ -30,7 +30,7 @@
   #include <iostream>
   #include <fstream>
 
-   void setModelData(std::string PATH, double **Coordinates, double **Elements, int &Nnodes, int &Nelems){
+   void setModelData(std::string PATH, double ** &Coordinates, double ** &Elements, int &Nnodes, int &Nelems){
 
      int cols;
 
