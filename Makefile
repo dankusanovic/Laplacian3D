@@ -7,7 +7,7 @@ INC	=
 LIBS	= 
 NVARCH	= 
 NVFLAGS	= $(CFLAGS) 
-TARGS	= main.o setAnalysis.o setModelData.o
+TARGS	= Main.o setAnalysis.o setModelData.o setForceVector.o setBoundaries.o freeModelData.o
 
 all:	$(EXE)
 

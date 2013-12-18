@@ -20,18 +20,19 @@
 // Keywords    : <Coordinates, Elements, GaussPoints>
 // Version     : <>
 //====================================================================================================================================
-// Written by Danilo S. Kusanovic, Dicember 2012
+// Written by Danilo S. Kusanovic, December 2013
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
   #include <string>
   #include <cstdlib>
   #include <sstream>
-  #include <iostream>
   #include <fstream>
-
-   void setModelData(std::string PATH, double ** &Coordinates, double ** &Elements, int &Nnodes, int &Nelems){
-
+  #include <iostream>
+  
+   void setModelData(std::string PATH, double** &Coordinates, int** &Elements, double ** &GaussPoints, int** &Restraints, 
+                     int** &Constraints, double* &Force, int &Nnodes, int &Nelems, int &Ngauss, int &Nrestr, int &Nconst){ 
+        
      int cols;
 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -40,9 +41,9 @@
      std::string COORDINATES = PATH;
      COORDINATES.append("/Coordinates.txt");
 
-     std::ifstream INFILEa(COORDINATES.c_str()); 
+     std::ifstream INFILEcoord(COORDINATES.c_str()); 
 
-	INFILEa >> Nnodes >> cols;
+	INFILEcoord >> Nnodes >> cols;
 
       //Memory Allocation for Coordinates:
         Coordinates = new double* [Nnodes];
@@ -53,10 +54,10 @@
 
       //Save Values in Coordinates:
 	for(int i = 0; i < Nnodes; i++){
-	    INFILEa >> Coordinates[i][0] >> Coordinates[i][1] >> Coordinates[i][2];
+	    INFILEcoord >> Coordinates[i][0] >> Coordinates[i][1] >> Coordinates[i][2];
 	} 
 
-     INFILEa.close(); 
+     INFILEcoord.close(); 
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // READ AND SAVE ELEMENTS DATA: 
@@ -64,27 +65,95 @@
      std::string ELEMENTS = PATH;
      ELEMENTS.append("/Elements.txt");
 
-     std::ifstream INFILEb(ELEMENTS.c_str()); 
+     std::ifstream INFILEelems(ELEMENTS.c_str()); 
 
-	INFILEb >> Nelems >> cols;
+	INFILEelems >> Nelems >> cols;
 
       //Memory Allocation for Coordinates:
-        Elements = new double* [Nelems];
+        Elements = new int* [Nelems];
 
         for(int i = 0; i < Nelems; i++){
-            Elements[i] = new double[cols]; 
+            Elements[i] = new int[cols]; 
         }
 
       //Save Values in Coordinates:
 	for(int i = 0; i < Nelems; i++){
-	    INFILEb >> Elements[i][0] >> Elements[i][1] >> Elements[i][2] >> Elements[i][3];
+	    INFILEelems >> Elements[i][0] >> Elements[i][1] >> Elements[i][2] >> Elements[i][3];
 	} 
 
-     INFILEb.close(); 
+     INFILEelems.close(); 
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // READ AND SAVE GAUSS POINTS DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
+     std::string INTEGRATION = PATH;
+     INTEGRATION.append("/GaussPoints.txt");
+
+     std::ifstream INFILEgauss(INTEGRATION.c_str()); 
+
+	INFILEgauss >> Ngauss >> cols;
+
+      //Memory Allocation for Coordinates:
+        GaussPoints = new double* [Ngauss];
+
+        for(int i = 0; i < Ngauss; i++){
+            GaussPoints[i] = new double[cols]; 
+        }
+
+      //Save Values in Coordinates:
+	for(int i = 0; i < Ngauss; i++){
+	    INFILEgauss >> GaussPoints[i][0] >> GaussPoints[i][1] >> GaussPoints[i][2] >> GaussPoints[i][3] >> GaussPoints[i][4];
+	} 
+
+     INFILEgauss.close(); 
+
+//------------------------------------------------------------------------------------------------------------------------------------
+// READ AND SAVE RESTRAINT AND CONSTRAINT DATA:
+//------------------------------------------------------------------------------------------------------------------------------------
+     std::string BOUNDARY = PATH;
+     BOUNDARY.append("/Boundary.txt");
+
+     std::ifstream INFILEboundary(BOUNDARY.c_str()); 
+
+	INFILEboundary >> Nrestr >> Nconst >> cols;
+
+      //Memory Allocation for Restraints:
+        Restraints = new int* [Nrestr];
+
+        for(int i = 0; i < Nrestr; i++){
+            Restraints[i] = new int[cols]; 
+        }
+
+      //Memory Allocation for Constraints:
+        Constraints = new int* [Nconst];
+
+        for(int i = 0; i < Nconst; i++){
+            Constraints[i] = new int[cols]; 
+        }
+
+      //Differentiate between Restraints (1) and Constraints (2): 
+        int j = 0, k = 0, Nboundary = Nrestr + Nconst;
+
+        for(int i = 0; i < Nboundary; i++){
+            int cond, dumm;
+            INFILEboundary >> cond;
+
+            if(cond == 1){
+               INFILEboundary >> dumm >> Restraints[j][0] >> Restraints[j][1] >> Restraints[j][2];
+               j = j + 1;
+            }
+            else if(cond == 2){ 
+               INFILEboundary >> dumm >> Constraints[k][0] >> Constraints[k][1] >> Constraints[k][2];
+               k = k + 1;
+            }
+        }
+
+     INFILEboundary.close(); 
+
+//------------------------------------------------------------------------------------------------------------------------------------
+// ALLOCATES FORCE DATA: 
+//------------------------------------------------------------------------------------------------------------------------------------
+     Force = new double[Nelems];
 
    }
 

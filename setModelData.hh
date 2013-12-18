@@ -1,19 +1,19 @@
 //====================================================================================================================================
 // HEADER FILE : "setAnalysis"
 //====================================================================================================================================
-// Syntax      : setModelData(std::string, double**, double**, double**, int &, int &, int &)
+// Syntax      : setModelData(double** &, double** &, double** &, int, int, int)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Sets FEM parameters of the analyzed Model. 
+// Purpose     : Frees FEM variables of the analyzed Model. 
 //====================================================================================================================================
-// Written by Danilo S. Kusanovic, Dicember 2012
+// Written by Danilo S. Kusanovic, December 2013
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
   #ifndef SETMODELDATA_HH
   #define SETMODELDATA_HH
 
-   void setModelData(std::string, double ** &, double ** &, int &, int &);
-
+   void setModelData(std::string, double** &, int** &, double** &, int** &, int** &, double* &, int &, int &, int &, int &, int &);
+        
   #endif
 
 //====================================================================================================================================

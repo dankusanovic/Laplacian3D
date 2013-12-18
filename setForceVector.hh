@@ -1,18 +1,18 @@
 //====================================================================================================================================
-// HEADER FILE : "setAnalysis"
+// HEADER FILE : "getVectorForce"
 //====================================================================================================================================
-// Syntax      : setAnalysis(int, char**, std::string &, int &)
+// Syntax      : getVectorForce(double** &, int** &, double** &, double* &, int, int, int)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Sets parameters of analysis. 
+// Purpose     : Computes the rigth hand side (vector force). 
 //====================================================================================================================================
 // Written by Danilo S. Kusanovic, December 2013
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #ifndef SETANALYSIS_HH
-  #define SETANALYSIS_HH
+  #ifndef SETFORCEVECTOR_HH
+  #define SETFORCEVECTOR_HH
 
-   void setAnalysis(int, char **, std::string &, int &);
+   void setForceVector(double** &, int** &, double** &, int** &, double* &, int, int, int);
 
   #endif
 

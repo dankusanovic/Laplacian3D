@@ -1,18 +1,18 @@
 //====================================================================================================================================
-// HEADER FILE : "setAnalysis"
+// HEADER FILE : "setRestraints"
 //====================================================================================================================================
-// Syntax      : setAnalysis(int, char**, std::string &, int &)
+// Syntax      : setRestraints(double** &, int** &, double* &, int)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Sets parameters of analysis. 
+// Purpose     : Update the left hand side (vector force). 
 //====================================================================================================================================
 // Written by Danilo S. Kusanovic, December 2013
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #ifndef SETANALYSIS_HH
-  #define SETANALYSIS_HH
+  #ifndef SETBOUNDARIES_HH
+  #define SETBOUNDARIES_HH 
 
-   void setAnalysis(int, char **, std::string &, int &);
+   void setBoundaries(double** &, int** &, int** &, double* &, int, int);
 
   #endif
 
