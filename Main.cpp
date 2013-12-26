@@ -65,7 +65,7 @@
       //------------------------------------------------------------------------------------------------------------------------------
          freeModelData(Coordinates,Elements,GaussPoints,Restraints,Constraints,Force,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
 
-      	 }
+     }
 
      return 0;
 
