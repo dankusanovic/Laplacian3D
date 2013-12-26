@@ -5,25 +5,27 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // Purpose     : Computes the vector solution for K*x = F. 
 //------------------------------------------------------------------------------------------------------------------------------------
-// Input       : Coordinates : List of coordinate values                          [Nnodes,3]
-//               Elements    : List of elements values                            [Nelems,3]
-//               GaussPoints : List of Gauss Integration values                   [Ngauss,3]
+// Input       : n           : Number of unknowns                                 [1,1]
+//               nz          : Number of components in COO format                 [1,1]
+//               i           : Row vector components                              [nz,1]
+//               j           : Column vector components                           [nz,1]
+//               K           : Stiffness matrix vector values                     [nz,1]
+//               F           : Force vector values                                [n,1]
 //------------------------------------------------------------------------------------------------------------------------------------
-// Output      : Coordinates : Cleaned up list of coordinate values               [0,0]
-//               Elements    : Cleaned up list of element values                  [0,0]
-//               GaussPoints : Cleaned up list of Gauss Integration values        [0,0]
+// Output      : F           : Solution vector values                             [n,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Folder      : 
 //------------------------------------------------------------------------------------------------------------------------------------
-// Description : <Frees model memory>
-// Keywords    : <Free,Coordinates, Elements, GaussPoints>
+// Description : <Solves linear system>
+// Keywords    : <solver,Mumps,configuration>
 // Version     : <>
 //====================================================================================================================================
 // Written by Danilo S. Kusanovic, December 2013
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
-
+ 
   #include "dmumps_c.h"
+  #include "MUMPSSolver.hh"
 
    void MUMPSSolver(int n, int nz, int* &i, int* &j, double* &K, double* &F, unsigned int sym, unsigned int output){
 
@@ -31,16 +33,12 @@
 // INITIALIZES MUMPS SOLVER: 
 //------------------------------------------------------------------------------------------------------------------------------------
      DMUMPS_STRUC_C id;
-     int myid, ierr;
-
-     myid   = 0;
-     ierr   = 0;
 
    //Initialize a MUMPS instance
      id.par = 1; 
      id.sym = sym;
      id.job = JOB_INIT; 
-     id.comm_fortran = USE_COMM_WORLD;//0;
+     id.comm_fortran = USE_COMM_WORLD;
      
      dmumps_c(&id);
 
@@ -54,22 +52,22 @@
      id.n   = n; 
      id.nz  = nz; 
 
-   //No outputs
-     if (output==0){
-	//id.ICNTL(3) = 0;
-        id.ICNTL(1)=-1; id.ICNTL(2)=-1; id.ICNTL(3)=-1; id.ICNTL(4)=0;
-     }
+   //No outputs Messages: Erros, warnings.
+     id.ICNTL(1)  = 0; 
+     id.ICNTL(2)  = 0; 
+     id.ICNTL(3)  = 0; 
+     id.ICNTL(4)  = 0;
 
+   //Percentage increase in the estimated working space.
      id.ICNTL(14) = 50;
 
-  //Calling the MUMPS package:
-    id.job = 6;
-    dmumps_c(&id);
+   //Calling the MUMPS package:
+     id.job = 6;
+     dmumps_c(&id);
 
-  //Terminate a MUMPS instance:
-    id.job = JOB_END; 
-    dmumps_c(&id); 
-   // ierr = 0;
+   //Terminate a MUMPS instance:
+     id.job = JOB_END; 
+     dmumps_c(&id); 
 
    }
 
