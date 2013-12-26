@@ -18,8 +18,9 @@
   #define UNSYMMETRIC			 0
   #define SYMMETRIC_POSITIVE_DIFINITE	 1
   #define GENERAL_SYMMETRIC		 2
+  #define ICNTL(I)                       icntl[(I)-1]
 
-   void MUMPSSolver(int, int, int*, int*, double*, double*, unsigned int, unsigned int);
+   void MUMPSSolver(int, int, int* &, int* &, double* &, double* &, unsigned int, unsigned int);
 
   #endif
 
