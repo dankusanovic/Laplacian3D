@@ -25,6 +25,7 @@
   #include <string>   
   #include <vector>
   #include <iostream> 
+  #include "MUMPSSolver.hh"
   #include "setAnalysis.hh"
   #include "setModelData.hh"
   #include "setForceVector.hh"
@@ -36,31 +37,35 @@
 
      int ITER;
      std::string PATH = "";
-
-   //Model Dimension:
-     int Nnodes, Nelems, Ngauss, Nrestr, Nconst;
-
-   //Model Variables:
-     int    **Elements, **Restraints, **Constraints;
-     double **GaussPoints, **Coordinates, *Force;
-
-  //----------------------------------------------------------------------------------------------------------------------------------
-  // PRE-ANALYSIS : Reads information from PATH. 
-  //----------------------------------------------------------------------------------------------------------------------------------
      setAnalysis(argc,argv,PATH,ITER);
-     setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Force,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
 
-  //----------------------------------------------------------------------------------------------------------------------------------
-  // RUN-ANALYSIS : Starts solver. 
-  //----------------------------------------------------------------------------------------------------------------------------------
-     setForceVector(Coordinates,Elements,GaussPoints,Restraints,Force,Nnodes,Nelems,Ngauss);
-   //setStiffnessMatrix(Coordinates,Elements,GaussPoints,Nnodes,Nelems,Ngauss);
-     setBoundaries(Coordinates,Restraints,Constraints,Force,Nrestr,Nconst);
+     for(int k = 0; k < ITER; k++){
 
-  //----------------------------------------------------------------------------------------------------------------------------------
-  // POST-ANALYSIS: Save information to PATH. 
-  //----------------------------------------------------------------------------------------------------------------------------------
-     freeModelData(Coordinates,Elements,GaussPoints,Restraints,Constraints,Force,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
+       //Model Dimension:
+         int Nnodes, Nelems, Ngauss, Nrestr, Nconst;
+
+       //Model Variables:
+         int    **Elements, **Restraints, **Constraints;
+         double **GaussPoints, **Coordinates, *Force;
+
+      //------------------------------------------------------------------------------------------------------------------------------
+      // PRE-ANALYSIS : Reads information from PATH. 
+      //------------------------------------------------------------------------------------------------------------------------------
+         setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Force,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
+
+      //------------------------------------------------------------------------------------------------------------------------------
+      // RUN-ANALYSIS : Starts solver. 
+      //------------------------------------------------------------------------------------------------------------------------------
+         setForceVector(Coordinates,Elements,GaussPoints,Restraints,Force,Nnodes,Nelems,Ngauss);
+       //setStiffnessMatrix(Coordinates,Elements,GaussPoints,Nnodes,Nelems,Ngauss);
+         setBoundaries(Coordinates,Restraints,Constraints,Force,Nrestr,Nconst);
+
+      //------------------------------------------------------------------------------------------------------------------------------
+      // POST-ANALYSIS: Save information to PATH. 
+      //------------------------------------------------------------------------------------------------------------------------------
+         freeModelData(Coordinates,Elements,GaussPoints,Restraints,Constraints,Force,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
+
+      	 }
 
      return 0;
 
