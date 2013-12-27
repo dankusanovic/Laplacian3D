@@ -20,7 +20,7 @@
   #define GENERAL_SYMMETRIC		 2
   #define ICNTL(I)                       icntl[(I)-1]
 
-   void MUMPSSolver(int, int, int* &, int* &, double* &, double* &, unsigned int, unsigned int);
+   void MUMPSSolver(int, int, int* &, int* &, double* &, double* &, unsigned int);
 
   #endif
 
