@@ -56,7 +56,7 @@
       //------------------------------------------------------------------------------------------------------------------------------
       // RUN-ANALYSIS : Starts solver. 
       //------------------------------------------------------------------------------------------------------------------------------
-         setForceVector(Coordinates,Elements,GaussPoints,Restraints,Force,Nnodes,Nelems,Ngauss);
+         setForceVector(Coordinates,Elements,GaussPoints,Force,Nnodes,Nelems,Ngauss);
        //setStiffnessMatrix(Coordinates,Elements,GaussPoints,Nnodes,Nelems,Ngauss);
          setBoundaries(Coordinates,Restraints,Constraints,Force,Nrestr,Nconst);
 
