@@ -12,7 +12,7 @@
   #ifndef FREEMODELDATA_HH
   #define FREEMODELDATA_HH
 
-   void freeModelData(double** &, int** &, double** &, int** &, int** &, double* &, int, int, int, int, int);
+   void freeModelData(double** &, int** &, double** &, int** &, int** &, double* &, double* &, int* &, int* &, int, int, int, int, int);
 
   #endif
 
