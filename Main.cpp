@@ -45,13 +45,13 @@
          int Nnodes, Nelems, Ngauss, Nrestr, Nconst;
 
        //Model Variables:
-         int    **Elements, **Restraints, **Constraints;
-         double **GaussPoints, **Coordinates, *Force;
+         int    **Elements, **Restraints, **Constraints, *row, *col;
+         double **GaussPoints, **Coordinates, *Stiffness, *Force;
 
       //------------------------------------------------------------------------------------------------------------------------------
       // PRE-ANALYSIS : Reads information from PATH. 
       //------------------------------------------------------------------------------------------------------------------------------
-         setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Force,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
+         setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
 
       //------------------------------------------------------------------------------------------------------------------------------
       // RUN-ANALYSIS : Starts solver. 
@@ -63,7 +63,7 @@
       //------------------------------------------------------------------------------------------------------------------------------
       // POST-ANALYSIS: Save information to PATH. 
       //------------------------------------------------------------------------------------------------------------------------------
-         freeModelData(Coordinates,Elements,GaussPoints,Restraints,Constraints,Force,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
+         freeModelData(Coordinates,Elements,GaussPoints,Restraints,Constraints,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
 
      }
 
