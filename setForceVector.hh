@@ -12,7 +12,7 @@
   #ifndef SETFORCEVECTOR_HH
   #define SETFORCEVECTOR_HH
 
-   void setForceVector(double** &, int** &, double** &, int** &, double* &, int, int, int);
+   void setForceVector(double** &, int** &, double** &, double* &, int, int, int);
 
   #endif
 
