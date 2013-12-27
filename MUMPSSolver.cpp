@@ -27,7 +27,7 @@
   #include "dmumps_c.h"
   #include "MUMPSSolver.hh"
 
-   void MUMPSSolver(int n, int nz, int* &i, int* &j, double* &K, double* &F, unsigned int sym, unsigned int output){
+   void MUMPSSolver(int n, int nz, int* &i, int* &j, double* &K, double* &F, unsigned int sym){
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // INITIALIZES MUMPS SOLVER: 
