@@ -38,7 +38,7 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // COMPUTES THE VECTOR FORCE: 
 //------------------------------------------------------------------------------------------------------------------------------------
-   void setForceVector(double** &Coordinates, int** &Elements, double** &GaussPoints, int** &Restraints, double* &Force, int Nnodes, 
+   void setForceVector(double** &Coordinates, int** &Elements, double** &GaussPoints, double* &Force, int Nnodes, 
                        int Nelems, int Ngauss){
         
    //Element Coordinates:
