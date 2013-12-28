@@ -102,8 +102,8 @@
              for(int j = 0; j < 4; j++){
 
                //COO Stiffness Matix format:
-                 row[count]       = Elements[k][i];
-                 col[count]       = Elements[k][j];
+                 row[count]       = Elements[k][i] + 1;
+                 col[count]       = Elements[k][j] + 1;
                  Stiffness[count] = (nx[i]*nx[j] + ny[i]*ny[j] + nz[i]*nz[j])/Volume;
 
                //Increases index for COO format:
