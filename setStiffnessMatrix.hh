@@ -1,7 +1,7 @@
 //====================================================================================================================================
 // HEADER FILE : "setStiffnessMatrix"
 //====================================================================================================================================
-// Syntax      : setStiffnessMatrix(double** &, int** &, double** &, double* &, int, int, int)
+// Syntax      : setStiffnessMatrix(double** &, int** &, double* &, int* &, int* &, int)
 //------------------------------------------------------------------------------------------------------------------------------------
 // Purpose     : Computes the stiffness matrix (k matrix). 
 //====================================================================================================================================
@@ -12,7 +12,7 @@
   #ifndef SETSTIFFNESSMATRIX_HH
   #define SETSTIFFNESSMATRIX_HH
 
-   void setStiffnessMatrix(double** &, int** &, double** &, int** &, double* &, int, int, int);
+   void setStiffnessMatrix(double** &, int** &, double* &, int* &, int* &, int);
 
   #endif
 
