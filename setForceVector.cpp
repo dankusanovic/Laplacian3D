@@ -1,7 +1,7 @@
 //====================================================================================================================================
 // IMPLEMENTATION FILE: "setForceVector"
 //====================================================================================================================================
-// Syntax      : getForceVector(Coordinates, Elements, GaussPoints,Force,Nelems,Ngauss)
+// Syntax      : setForceVector(Coordinates, Elements, GaussPoints,Force,Nelems,Ngauss)
 //------------------------------------------------------------------------------------------------------------------------------------
 // Purpose     : Computes the force vector imposing boundary conditions. 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -51,6 +51,7 @@
      double ux, uy, uz, vx, vy, vz, wx, wy, wz;
 
      for(int i = 0; i < Nelems; i++){
+         Integral[0] = 0.0; Integral[1] = 0.0; Integral[2] = 0.0; Integral[3] = 0.0;
 
       //------------------------------------------------------------------------------------------------------------------------------
       // Computes Tetrahedron volume given four coordinates:
@@ -72,18 +73,15 @@
       //------------------------------------------------------------------------------------------------------------------------------
       // Performs Gaussian Integration over the element:
       //------------------------------------------------------------------------------------------------------------------------------
-         Integral[0] = 0.0; Integral[1] = 0.0; 
-         Integral[2] = 0.0; Integral[3] = 0.0;
-
          for(int j = 0; j < Ngauss; j++){
 
           //Transformed triangular Coordinates:
-             xi   = Coordinates[Elements[i][0]][0]*GaussPoints[j][1] + Coordinates[Elements[i][1]][0]*GaussPoints[j][2] + 
-                    Coordinates[Elements[i][2]][0]*GaussPoints[j][3] + Coordinates[Elements[i][3]][0]*GaussPoints[j][4];
-             eta  = Coordinates[Elements[i][0]][1]*GaussPoints[j][1] + Coordinates[Elements[i][1]][1]*GaussPoints[j][2] + 
-                    Coordinates[Elements[i][2]][1]*GaussPoints[j][3] + Coordinates[Elements[i][3]][1]*GaussPoints[j][4];
-             zeta = Coordinates[Elements[i][0]][2]*GaussPoints[j][1] + Coordinates[Elements[i][1]][2]*GaussPoints[j][2] + 
-                    Coordinates[Elements[i][2]][2]*GaussPoints[j][3] + Coordinates[Elements[i][3]][2]*GaussPoints[j][4];
+            xi   = Coordinates[Elements[i][0]][0]*GaussPoints[j][1] + Coordinates[Elements[i][1]][0]*GaussPoints[j][2] + 
+                   Coordinates[Elements[i][2]][0]*GaussPoints[j][3] + Coordinates[Elements[i][3]][0]*GaussPoints[j][4];
+            eta  = Coordinates[Elements[i][0]][1]*GaussPoints[j][1] + Coordinates[Elements[i][1]][1]*GaussPoints[j][2] + 
+                   Coordinates[Elements[i][2]][1]*GaussPoints[j][3] + Coordinates[Elements[i][3]][1]*GaussPoints[j][4];
+            zeta = Coordinates[Elements[i][0]][2]*GaussPoints[j][1] + Coordinates[Elements[i][1]][2]*GaussPoints[j][2] + 
+                   Coordinates[Elements[i][2]][2]*GaussPoints[j][3] + Coordinates[Elements[i][3]][2]*GaussPoints[j][4];
 
           //Force function evaluated at each triangular coordinates:
             Value = GaussPoints[j][0]*getForce(xi,eta,zeta);
