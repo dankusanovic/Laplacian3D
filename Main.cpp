@@ -59,6 +59,7 @@
          setForceVector(Coordinates,Elements,GaussPoints,Force,Nnodes,Nelems,Ngauss);
          setStiffnessMatrix(Coordinates,Elements,Stiffness,row,col,Nelems);
          setBoundaries(Coordinates,Restraints,Constraints,Force,Nrestr,Nconst);
+       //MUMPSSolver(Nnodes,16*Nelems,row,col,Stiffness, Force,0);
 
       //------------------------------------------------------------------------------------------------------------------------------
       // POST-ANALYSIS: Save information to PATH. 
