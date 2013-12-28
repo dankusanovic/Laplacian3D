@@ -29,7 +29,7 @@
   #include "setAnalysis.hh"
   #include "setModelData.hh"
   #include "setForceVector.hh"
-//#include "setStiffnessMatrix.hh"
+  #include "setStiffnessMatrix.hh"
   #include "setBoundaries.hh"
   #include "freeModelData.hh"
 
@@ -54,10 +54,10 @@
          setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
 
       //------------------------------------------------------------------------------------------------------------------------------
-      // RUN-ANALYSIS : Starts solver. 
+      // RUN-ANALYSIS : Starts Solution. 
       //------------------------------------------------------------------------------------------------------------------------------
          setForceVector(Coordinates,Elements,GaussPoints,Force,Nnodes,Nelems,Ngauss);
-       //setStiffnessMatrix(Coordinates,Elements,GaussPoints,Nnodes,Nelems,Ngauss);
+         setStiffnessMatrix(Coordinates,Elements,Stiffness,row,col,Nelems);
          setBoundaries(Coordinates,Restraints,Constraints,Force,Nrestr,Nconst);
 
       //------------------------------------------------------------------------------------------------------------------------------
