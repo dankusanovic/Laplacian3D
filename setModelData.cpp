@@ -31,7 +31,7 @@
   #include <iostream>
   
    void setModelData(std::string PATH, double** &Coordinates, int** &Elements, double ** &GaussPoints, int** &Restraints, int** &Constraints, 
-                     double* &Stiffness, double* &Force, int* &row, int* &col, int &Nnodes, int &Nelems, int &Ngauss, int &Nrestr, int &Nconst){ 
+                     double* &Stiffness, double* &Force, int* &row, int* &col, int &Nnodes, int &Nelems, int &Ngauss, int &Nrestr, int &Nconst, int &Nzeros){ 
 
      int cols;
 
@@ -153,9 +153,10 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // ALLOCATES STIFFNESS MATRIX DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
-     row       = new int[16*Nelems];
-     col       = new int[16*Nelems];
-     Stiffness = new double[16*Nelems];
+     Nzeros    = 16*Nelems;
+     row       = new int[Nzeros];
+     col       = new int[Nzeros];
+     Stiffness = new double[Nzeros];
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // ALLOCATES FORCE VECTOR DATA: 
