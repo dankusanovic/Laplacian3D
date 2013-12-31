@@ -12,7 +12,7 @@
   #ifndef SETMODELDOFS_HH
   #define SETMODELDOFS_HH 
 
-   void setModelDofs(double** &, int** &, int** &, int , int , int , int , int &);
+   void setModelDofs(int** &, int** &, int** &, int , int , int , int , int &);
 
 
   #endif
