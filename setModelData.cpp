@@ -79,6 +79,7 @@
       //Save Values in Coordinates:
 	for(int i = 0; i < Nelems; i++){
 	    INFILEelems >> Elements[i][0] >> Elements[i][1] >> Elements[i][2] >> Elements[i][3];
+            Elements[i][0]--; Elements[i][1]--; Elements[i][2]--; Elements[i][3]--;
 	} 
 
      INFILEelems.close(); 
@@ -140,10 +141,12 @@
 
             if(cond == 1){
                INFILEboundary >> dumm >> Restraints[j][0] >> Restraints[j][1] >> Restraints[j][2];
+               Restraints[j][0]--; Restraints[j][1]--; Restraints[j][2]--;
                j = j + 1;
             }
             else if(cond == 2){ 
                INFILEboundary >> dumm >> Constraints[k][0] >> Constraints[k][1] >> Constraints[k][2];
+               Constraints[j][0]--; Constraints[j][1]--; Constraints[j][2]--;
                k = k + 1;
             }
         }
