@@ -24,7 +24,7 @@
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-   void setModelDofs(double** &Elements, int** &Restraints, int** &Constraints, int Nnodes, int Nelems, int Nrestr, int Nconst, int &Nzeros){
+   void setModelDofs(int** &Elements, int** &Restraints, int** &Constraints, int Nnodes, int Nelems, int Nrestr, int Nconst, int &Nzeros){
   
       //------------------------------------------------------------------------------------------------------------------------------
       // FREE DEGREE OF FREEDOMS:

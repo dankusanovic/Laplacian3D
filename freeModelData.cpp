@@ -25,7 +25,7 @@
 
   #include <iostream>
   
-   void freeModelData(double** &Coordinates, int** &Elements, double** &GaussPoints, int** &Restraints, int** &Constraints, 
+   void freeModelData(double** &Coordinates, int** &Elements, double** &GaussPoints, int** &Restraints, int** &Constraints, int* &Dofs,
                       double* &Stiffness, double* &Force, int* &row, int* &col, int Nnodes, int Nelems, int Ngauss, int Nrestr, int Nconst){
 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -67,6 +67,12 @@
           delete[] Constraints[i]; 
      }
      delete[] Constraints;
+
+//------------------------------------------------------------------------------------------------------------------------------------
+// FREE FORCE VECTOR DATA: 
+//------------------------------------------------------------------------------------------------------------------------------------
+     delete[] Dofs;
+
 //------------------------------------------------------------------------------------------------------------------------------------
 // FREE STIFFNESS MATRIX DATA:
 //------------------------------------------------------------------------------------------------------------------------------------

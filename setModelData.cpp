@@ -30,7 +30,7 @@
   #include <fstream>
   #include <iostream>
   
-   void setModelData(std::string PATH, double** &Coordinates, int** &Elements, double ** &GaussPoints, int** &Restraints, int** &Constraints, 
+   void setModelData(std::string PATH, double** &Coordinates, int** &Elements, double ** &GaussPoints, int** &Restraints, int** &Constraints, int* &Dofs, 
                      double* &Stiffness, double* &Force, int* &row, int* &col, int &Nnodes, int &Nelems, int &Ngauss, int &Nrestr, int &Nconst, int &Nzeros){ 
 
      int cols;
@@ -152,6 +152,10 @@
         }
 
      INFILEboundary.close(); 
+//------------------------------------------------------------------------------------------------------------------------------------
+// ALLOCATES DOFS VECTOR DATA: 
+//------------------------------------------------------------------------------------------------------------------------------------
+     Dofs = new int[Nnodes];
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // ALLOCATES STIFFNESS MATRIX DATA: 
