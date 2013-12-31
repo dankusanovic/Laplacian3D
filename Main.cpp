@@ -23,15 +23,15 @@
 //====================================================================================================================================
 
   #include <string>   
-  #include <vector>
   #include <iostream> 
   #include "MUMPSSolver.hh"
   #include "setAnalysis.hh"
   #include "setModelData.hh"
+//#include "saveModelData.hh"
+  #include "freeModelData.hh"
+  #include "setBoundaries.hh"
   #include "setForceVector.hh"
   #include "setStiffnessMatrix.hh"
-  #include "setBoundaries.hh"
-  #include "freeModelData.hh"
 
    int main(int argc, char** argv){
 
@@ -42,28 +42,36 @@
      for(int k = 0; k < ITER; k++){
 
        //Model Dimension:
-         int Nnodes, Nelems, Ngauss, Nrestr, Nconst;
+         int Nnodes, Nelems, Ngauss, Nrestr, Nconst, Nzeros;
 
        //Model Variables:
          int    **Elements, **Restraints, **Constraints, *row, *col;
          double **GaussPoints, **Coordinates, *Stiffness, *Force;
 
       //------------------------------------------------------------------------------------------------------------------------------
-      // PRE-ANALYSIS : Reads information from PATH. 
+      // PRE-ANALYSIS :  
       //------------------------------------------------------------------------------------------------------------------------------
-         setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
+       //Reads information:
+         setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst,Nzeros);
 
       //------------------------------------------------------------------------------------------------------------------------------
-      // RUN-ANALYSIS : Starts Solution. 
+      // RUN-ANALYSIS :  
       //------------------------------------------------------------------------------------------------------------------------------
+       //FEM Assembly:
          setForceVector(Coordinates,Elements,GaussPoints,Force,Nnodes,Nelems,Ngauss);
          setStiffnessMatrix(Coordinates,Elements,Stiffness,row,col,Nelems);
          setBoundaries(Coordinates,Restraints,Constraints,Force,Nrestr,Nconst);
-       //MUMPSSolver(Nnodes,16*Nelems,row,col,Stiffness, Force,0);
+
+       //FEM Solution:
+         MUMPSSolver(Nnodes,Nzeros,row,col,Stiffness, Force,0);
 
       //------------------------------------------------------------------------------------------------------------------------------
-      // POST-ANALYSIS: Save information to PATH. 
+      // POST-ANALYSIS: 
       //------------------------------------------------------------------------------------------------------------------------------
+       //Save solution:
+       //saveModelData(Coordinates,Elements,Restraints,Constraints,Force,Nnodes,Nelems,Nrestr,Nconst);
+
+       //Free memory:
          freeModelData(Coordinates,Elements,GaussPoints,Restraints,Constraints,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
 
      }
