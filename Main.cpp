@@ -27,10 +27,12 @@
   #include "MUMPSSolver.hh"
   #include "setAnalysis.hh"
   #include "setModelData.hh"
+  #include "setModelDofs.hh"
 //#include "saveModelData.hh"
   #include "freeModelData.hh"
   #include "setBoundaries.hh"
   #include "setForceVector.hh"
+//#include "allocateModelData.hh"
   #include "setStiffnessMatrix.hh"
 
    int main(int argc, char** argv){
@@ -45,14 +47,17 @@
          int Nnodes, Nelems, Ngauss, Nrestr, Nconst, Nzeros;
 
        //Model Variables:
-         int    **Elements, **Restraints, **Constraints, *row, *col;
+         int    **Elements, **Restraints, **Constraints, *Dofs, *row, *col;
          double **GaussPoints, **Coordinates, *Stiffness, *Force;
 
       //------------------------------------------------------------------------------------------------------------------------------
       // PRE-ANALYSIS :  
       //------------------------------------------------------------------------------------------------------------------------------
        //Reads information:
-         setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst,Nzeros);
+         setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Dofs,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst,Nzeros);
+        //setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
+          setModelDofs(Elements,Restraints,Constraints,Nnodes,Nelems,Nrestr,Nconst,Nzeros);
+        //allocateModelData(Stiffness,Force,row,col,Nzeros);
 
       //------------------------------------------------------------------------------------------------------------------------------
       // RUN-ANALYSIS :  
@@ -72,7 +77,7 @@
        //saveModelData(Coordinates,Elements,Restraints,Constraints,Force,Nnodes,Nelems,Nrestr,Nconst);
 
        //Free memory:
-         freeModelData(Coordinates,Elements,GaussPoints,Restraints,Constraints,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
+         freeModelData(Coordinates,Elements,GaussPoints,Restraints,Constraints,Dofs,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
 
      }
 
