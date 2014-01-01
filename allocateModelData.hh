@@ -12,7 +12,7 @@
   #ifndef ALLOCATEMODELDATA_HH
   #define ALLOCATEMODELDATA_HH
 
-   void allocateModelData(double* &, double* &, int* &, int* &, int , int);
+   void allocateModelData(double* &, double* &, int* &, int* &, int , int); 
 
   #endif
 
