@@ -12,7 +12,7 @@
   #ifndef SETSTIFFNESSMATRIX_HH
   #define SETSTIFFNESSMATRIX_HH
 
-   void setStiffnessMatrix(double** &, int** &, double* &, int* &, int* &, int);
+   void setStiffnessMatrix(double** &, int** &, double* &, int* &, int* &, int* &, int);
 
   #endif
 

@@ -26,7 +26,7 @@
 
   #include <cmath>
 
-   void setStiffnessMatrix(double** &Coordinates, int** &Elements, double* &Stiffness, int* &row, int* &col, int Nelems){
+   void setStiffnessMatrix(double** &Coordinates, int** &Elements, double* &Stiffness, int* &row, int* &col, int* &Dofs, int Nelems){
                                      
    //Element properties:
      double Volume, nx[4], ny[4], nz[4];
@@ -100,14 +100,15 @@
       //------------------------------------------------------------------------------------------------------------------------------
          for(int i = 0; i < 4; i++){
              for(int j = 0; j < 4; j++){
+                 if(Dofs[Elements[k][i]] != -1 && Dofs[Elements[k][j]] != -1){
+	          //COO Stiffness Matix format:
+		    row[count]       = Dofs[Elements[k][i]] + 1;
+		    col[count]       = Dofs[Elements[k][j]] + 1;
+		    Stiffness[count] = (nx[i]*nx[j] + ny[i]*ny[j] + nz[i]*nz[j])/Volume;
 
-               //COO Stiffness Matix format:
-                 row[count]       = Elements[k][i] + 1;
-                 col[count]       = Elements[k][j] + 1;
-                 Stiffness[count] = (nx[i]*nx[j] + ny[i]*ny[j] + nz[i]*nz[j])/Volume;
-
-               //Increases index for COO format:
-                 count = count + 1;
+		  //Increases index for COO format:
+		    count = count + 1;
+                 }
              }
          }
 
