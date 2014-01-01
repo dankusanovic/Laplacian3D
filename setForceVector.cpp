@@ -38,8 +38,8 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // COMPUTES THE VECTOR FORCE: 
 //------------------------------------------------------------------------------------------------------------------------------------
-   void setForceVector(double** &Coordinates, int** &Elements, double** &GaussPoints, double* &Force, int Nnodes, 
-                       int Nelems, int Ngauss){
+   void setForceVector(double** &Coordinates, int** &Elements, double** &GaussPoints, double* &Force, int* &Dofs,
+                       int Nnodes, int Nelems, int Ngauss){
         
    //Element Coordinates:
      double xi, eta, zeta;  
@@ -98,7 +98,9 @@
       // Force value at each degree of freedom:
       //------------------------------------------------------------------------------------------------------------------------------
          for(int j = 0; j < 4; j++){
-             Force[Elements[i][j]] += Volume*Integral[j];
+             if(Dofs[Elements[i][j]] != -1){
+                Force[Dofs[Elements[i][j]]] += Volume*Integral[j];
+             }
          }
 
      }

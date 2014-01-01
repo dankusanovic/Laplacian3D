@@ -1,7 +1,7 @@
 //====================================================================================================================================
-// HEADER FILE : "getVectorForce"
+// HEADER FILE : "setForceVector"
 //====================================================================================================================================
-// Syntax      : getVectorForce(double** &, int** &, double** &, double* &, int, int, int)
+// Syntax      : setForceVector(double** &, int** &, double** &, double* &, int* &, int, int, int)
 //------------------------------------------------------------------------------------------------------------------------------------
 // Purpose     : Computes the rigth hand side (vector force). 
 //====================================================================================================================================
@@ -12,7 +12,7 @@
   #ifndef SETFORCEVECTOR_HH
   #define SETFORCEVECTOR_HH
 
-   void setForceVector(double** &, int** &, double** &, double* &, int, int, int);
+   void setForceVector(double** &, int** &, double** &, double* &, int* &, int, int, int);
 
   #endif
 
