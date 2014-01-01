@@ -32,42 +32,42 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // INITIALIZES MUMPS SOLVER: 
 //------------------------------------------------------------------------------------------------------------------------------------
-     DMUMPS_STRUC_C id;
+     DMUMPS_STRUC_C Model;
 
-   //Initialize a MUMPS instance
-     id.par = 1; 
-     id.sym = sym;
-     id.job = JOB_INIT; 
-     id.comm_fortran = USE_COMM_WORLD;
+     Model.par = 1; 
+     Model.sym = sym;
+     Model.comm_fortran = USE_COMM_WORLD;
      
-     dmumps_c(&id);
+   //Initialize a MUMPS instance
+     Model.job = JOB_INIT;
+     dmumps_c(&Model);
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // DEFINES THE PROBLEM ON THE HOST: 
 //------------------------------------------------------------------------------------------------------------------------------------
-     id.irn = i; 
-     id.jcn = j;
-     id.a   = K; 
-     id.rhs = F;
-     id.n   = n; 
-     id.nz  = nz; 
+     Model.n   = n; 
+     Model.nz  = nz;
+     Model.irn = i; 
+     Model.jcn = j;
+     Model.a   = K; 
+     Model.rhs = F;
 
    //No outputs Messages: Erros, warnings.
-     id.ICNTL(1)  = 0; 
-     id.ICNTL(2)  = 0; 
-     id.ICNTL(3)  = 0; 
-     id.ICNTL(4)  = 0;
+     Model.ICNTL(1)  = 0; 
+     Model.ICNTL(2)  = 0; 
+     Model.ICNTL(3)  = 0; 
+     Model.ICNTL(4)  = 0;
 
    //Percentage increase in the estimated working space.
-     id.ICNTL(14) = 50;
+     Model.ICNTL(14) = 50;
 
    //Calling the MUMPS package:
-     id.job = 6;
-     dmumps_c(&id);
+     Model.job = 6;
+     dmumps_c(&Model);
 
    //Terminate a MUMPS instance:
-     id.job = JOB_END; 
-     dmumps_c(&id); 
+     Model.job = JOB_END; 
+     dmumps_c(&Model); 
 
    }
 
