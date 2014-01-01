@@ -1,35 +1,76 @@
 //====================================================================================================================================
-// IMPLEMENTATION FILE: "setForceVector"
+// IMPLEMENTATION FILE: "setModelDofs"
 //====================================================================================================================================
-// Syntax      : setBoundaries(Coordinates, Elements, GaussPoints,Force,Nelems,Ngauss)
+// Syntax      : setModelDofs(Elements,Restraints,Dofs,Nnodes,Nelems,Nrestr,Nfree,Nzeros)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Impose boundary conditions to the vector force and stiffness matrix. 
+// Purpose     : Determines the free degree of freedom and re-number such degrees. 
 //------------------------------------------------------------------------------------------------------------------------------------
-// Input       : Coordinates : List of nodal values                              [Nnodes,3]
+// Input       : Elements    : List of elements values                           [Nelems,3]
 //               Restraints  : Restrained nodal values                           [Nrestr,3]
-//               Constraints : Cponstrained nodal values                         [Nconst,3]
-//               Nrestr      : Number of restrained nodes                        [1,1] 
-//               Nconst      : Number of constrained nodes                       [1,1]
+//               Dofs        : Free degree of freedom numbering                  [Nnodes,1]
+//               Nnodes      : Number of total nodes                             [1,1] 
+//               Nelems      : Number of total elements                          [1,1] 
+//               Nrestr      : Number of restrained nodes                        [1,1]
+//               Nfree       : Number of free nodes                              [1,1] 
+//               Nzeros      : Number of nonzero values for stiffness matrix     [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
-// Output      : Force       : Updated force vector                              [Nnodes,1]
-//               Stiffness   : Updated Stiffness matrix                          [Nnodes,Nnodes]
+// Output      : Dofs        : Updated free degree of freedom numbering          [Nnodes,1]
+//               Nfree       : Number of free nodes                              [1,1] 
+//               Nzeros      : Number of nonzero values for stiffness matrix     [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Folder      : 
 //------------------------------------------------------------------------------------------------------------------------------------
-// Description : <Restrained values>
-// Keywords    : <restrain,constraint>
+// Description : <Free Degree of Freedom>
+// Keywords    : <Free,dofs>
 // Version     : <>
 //====================================================================================================================================
-// Written by Danilo S. Kusanovic, December 2013
+// Written by Danilo S. Kusanovic, January 2014
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-   void setModelDofs(int** &Elements, int** &Restraints, int** &Constraints, int Nnodes, int Nelems, int Nrestr, int Nconst, int &Nzeros){
+   void setModelDofs(int** &Elements, int** &Restraints, int* &Dofs, int Nnodes, int Nelems, int Nrestr, int &Nfree, int &Nzeros){
+
+         int k, count = 0; Nzeros = 0;
   
+      //------------------------------------------------------------------------------------------------------------------------------
+      // TOTAL DEGREE OF FREEDOMS:
+      //------------------------------------------------------------------------------------------------------------------------------
+         for(int i = 0; i < Nrestr; i++){
+            for(int j = 0; j < 3; j++){
+
+              //Global Degree of freedom:
+                k = Restraints[i][j];
+
+              //Updated Restrained Dofs:
+                Dofs[k] = -1;
+            }
+         }
+
       //------------------------------------------------------------------------------------------------------------------------------
       // FREE DEGREE OF FREEDOMS:
       //------------------------------------------------------------------------------------------------------------------------------
+         for(int i = 0; i < Nnodes; i++){
+             if(Dofs[i] != -1){
+                Dofs[i] = count;
+                count = count + 1;
+             }
+         }
+         Nfree = count;
 
+      //------------------------------------------------------------------------------------------------------------------------------
+      // NONZERO NUMBER:
+      //------------------------------------------------------------------------------------------------------------------------------
+         for(int i = 0; i < Nelems; i++){
+
+             count = 0;
+             for(int j = 0; j < 4; j++){
+                 if(Dofs[Elements[i][j]] != -1){
+                    count = count + 1;
+                 }
+             }
+
+             Nzeros = Nzeros + count*count;
+         }
 
    } 
 
