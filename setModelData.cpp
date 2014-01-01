@@ -1,7 +1,7 @@
 //====================================================================================================================================
-// IMPLEMENTATION FILE: "setAnalysis"
+// IMPLEMENTATION FILE: "setModelData"
 //====================================================================================================================================
-// Syntax      : setModelData(PATH, Coordinates, Elements, GaussPoints)
+// Syntax      : setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Dofs,Nnodes,Nelems,Ngauss,Nrestr,Nconst)
 //------------------------------------------------------------------------------------------------------------------------------------
 // Purpose     : Sets FEM Model of analysis. 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -30,8 +30,8 @@
   #include <fstream>
   #include <iostream>
   
-   void setModelData(std::string PATH, double** &Coordinates, int** &Elements, double ** &GaussPoints, int** &Restraints, int** &Constraints, int* &Dofs, 
-                     double* &Stiffness, double* &Force, int* &row, int* &col, int &Nnodes, int &Nelems, int &Ngauss, int &Nrestr, int &Nconst, int &Nzeros){ 
+   void setModelData(std::string PATH, double** &Coordinates, int** &Elements, double ** &GaussPoints, int** &Restraints, int** &Constraints, 
+                     int* &Dofs, int &Nnodes, int &Nelems, int &Ngauss, int &Nrestr, int &Nconst){ 
 
      int cols;
 
@@ -156,19 +156,6 @@
 // ALLOCATES DOFS VECTOR DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
      Dofs = new int[Nnodes];
-
-//------------------------------------------------------------------------------------------------------------------------------------
-// ALLOCATES STIFFNESS MATRIX DATA: 
-//------------------------------------------------------------------------------------------------------------------------------------
-     Nzeros    = 16*Nelems;
-     row       = new int[Nzeros];
-     col       = new int[Nzeros];
-     Stiffness = new double[Nzeros];
-
-//------------------------------------------------------------------------------------------------------------------------------------
-// ALLOCATES FORCE VECTOR DATA: 
-//------------------------------------------------------------------------------------------------------------------------------------
-     Force = new double[Nelems];
 
    }
 
