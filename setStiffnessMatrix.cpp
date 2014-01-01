@@ -29,6 +29,7 @@
    void setStiffnessMatrix(double** &Coordinates, int** &Elements, double* &Stiffness, int* &row, int* &col, int* &Dofs, int Nelems){
                                      
    //Element properties:
+     int    DOFi, DOFj;
      double Volume, nx[4], ny[4], nz[4];
      double ux, uy, uz, vx, vy, vz, wx, wy, wz;
 
@@ -99,12 +100,16 @@
       // COMPUTES LOCAL ELEMENT STIFFNESS MATRIX:
       //------------------------------------------------------------------------------------------------------------------------------
          for(int i = 0; i < 4; i++){
+             DOFi = Dofs[Elements[k][i]]; 
+
              for(int j = 0; j < 4; j++){
-                 if(Dofs[Elements[k][i]] != -1 && Dofs[Elements[k][j]] != -1){
+                 DOFj= Dofs[Elements[k][j]];
+
+                 if(DOFi != -1 &&  DOFj != -1){
 	          //COO Stiffness Matix format:
-		    row[count]       = Dofs[Elements[k][i]] + 1;
-		    col[count]       = Dofs[Elements[k][j]] + 1;
-		    Stiffness[count] = (nx[i]*nx[j] + ny[i]*ny[j] + nz[i]*nz[j])/Volume;
+		    row[count]       = DOFi + 1;
+		    col[count]       = DOFj + 1;
+		    Stiffness[count] = 1.0/Volume*(nx[i]*nx[j] + ny[i]*ny[j] + nz[i]*nz[j]);
 
 		  //Increases index for COO format:
 		    count = count + 1;
