@@ -45,6 +45,7 @@
      double xi, eta, zeta;  
 
    //Element properties: 
+     int    DOFi;
      double Volume, Value, Integral[4];
 
    //Side vector components:
@@ -98,8 +99,10 @@
       // Force value at each degree of freedom:
       //------------------------------------------------------------------------------------------------------------------------------
          for(int j = 0; j < 4; j++){
-             if(Dofs[Elements[i][j]] != -1){
-                Force[Dofs[Elements[i][j]]] += Volume*Integral[j];
+             DOFi = Dofs[Elements[i][j]];
+
+             if(DOFi != -1){
+                Force[DOFi] += Volume*Integral[j];
              }
          }
 
