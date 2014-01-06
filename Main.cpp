@@ -6,11 +6,11 @@
 // Purpose     : Runs the specified model located at PATH. 
 //------------------------------------------------------------------------------------------------------------------------------------
 // Input       : ITER        : Number of iterations                               [1,1]
-//               DOFS        : Number of degree of freedom per node               [1,1]
 //               PATH        : Path to the folder files                           [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
-// Output      : Solution    : Nodal values                                       [nElem,1]
-//               Mesh        : Vector of elements                                 [nElem,4]
+// Output      : Coordinates : List of coordinate values                          [Nnodes,3]
+//               Elements    : List of elements values                            [Nelems,3]
+//               Solution    : Nodal values                                       [nElem,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Folder      : 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -30,9 +30,8 @@
   #include "setModelDofs.hh"
 //#include "saveModelData.hh"
   #include "freeModelData.hh"
-  #include "setBoundaries.hh"
   #include "setForceVector.hh"
-//#include "allocateModelData.hh"
+  #include "allocateModelData.hh"
   #include "setStiffnessMatrix.hh"
 
    int main(int argc, char** argv){
@@ -44,39 +43,40 @@
      for(int k = 0; k < ITER; k++){
 
        //Model Dimension:
-         int Nnodes, Nelems, Ngauss, Nrestr, Nconst, Nzeros;
+         int Nnodes, Nelems, Ngauss, Nrestr, Nconst, Nfree, Nzeros;
 
        //Model Variables:
          int    **Elements, **Restraints, **Constraints, *Dofs, *row, *col;
-         double **GaussPoints, **Coordinates, *Stiffness, *Force;
+         double **GaussPoints, **Coordinates, *Stiffness, *Force; 
 
       //------------------------------------------------------------------------------------------------------------------------------
       // PRE-ANALYSIS :  
       //------------------------------------------------------------------------------------------------------------------------------
        //Reads information:
-         setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Dofs,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst,Nzeros);
-        //setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
-          setModelDofs(Elements,Restraints,Constraints,Nnodes,Nelems,Nrestr,Nconst,Nzeros);
-        //allocateModelData(Stiffness,Force,row,col,Nzeros);
+          setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Dofs,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
+          setModelDofs(Elements,Restraints,Dofs,Nnodes,Nelems,Nrestr,Nfree,Nzeros);
+          allocateModelData(Stiffness,Force,row,col,Nfree,Nzeros);
 
       //------------------------------------------------------------------------------------------------------------------------------
       // RUN-ANALYSIS :  
       //------------------------------------------------------------------------------------------------------------------------------
        //FEM Assembly:
-         setForceVector(Coordinates,Elements,GaussPoints,Force,Nnodes,Nelems,Ngauss);
-         setStiffnessMatrix(Coordinates,Elements,Stiffness,row,col,Nelems);
-         setBoundaries(Coordinates,Restraints,Constraints,Force,Nrestr,Nconst);
+         setForceVector(Coordinates,Elements,GaussPoints,Force,Dofs,Nnodes,Nelems,Ngauss);
+         setStiffnessMatrix(Coordinates,Elements,Stiffness,row,col,Dofs,Nelems);
 
        //FEM Solution:
-         MUMPSSolver(Nnodes,Nzeros,row,col,Stiffness, Force,0);
+         MUMPSSolver(Nfree,Nzeros,row,col,Stiffness, Force,0);
 
       //------------------------------------------------------------------------------------------------------------------------------
       // POST-ANALYSIS: 
       //------------------------------------------------------------------------------------------------------------------------------
-       //Save solution:
+       //Save Solution:
        //saveModelData(Coordinates,Elements,Restraints,Constraints,Force,Nnodes,Nelems,Nrestr,Nconst);
 
-       //Free memory:
+       //Mesh Refiner:
+         //system("./refinement");
+
+       //Free Memory:
          freeModelData(Coordinates,Elements,GaussPoints,Restraints,Constraints,Dofs,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
 
      }
