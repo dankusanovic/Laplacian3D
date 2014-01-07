@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // Output      : Coordinates : List of coordinate values                          [Nnodes,3]
 //               Elements    : List of elements values                            [Nelems,3]
-//               Solution    : Nodal values                                       [nElem,1]
+//               Solution    : Nodal values                                       [Nelems,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Folder      : 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -28,7 +28,7 @@
   #include "setAnalysis.hh"
   #include "setModelData.hh"
   #include "setModelDofs.hh"
-//#include "saveModelData.hh"
+  #include "saveModelData.hh"
   #include "freeModelData.hh"
   #include "setForceVector.hh"
   #include "allocateModelData.hh"
@@ -71,7 +71,7 @@
       // POST-ANALYSIS: 
       //------------------------------------------------------------------------------------------------------------------------------
        //Save Solution:
-       //saveModelData(Coordinates,Elements,Restraints,Constraints,Force,Nnodes,Nelems,Nrestr,Nconst);
+         saveModelData(PATH,Coordinates,Elements,Restraints,Constraints,Force,Dofs,Nnodes,Nelems,Nrestr,Nconst);
 
        //Mesh Refiner:
          //system("./refinement");
