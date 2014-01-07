@@ -45,6 +45,7 @@
         case 3:{
 	         ITER = atoi(argv[1]);
                  PATH = std::string(argv[2]);
+                 PATH.append("Model/");
                  break;
 	       }
 
