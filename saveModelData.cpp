@@ -30,24 +30,64 @@
   #include <fstream>
   #include <iostream>
   
-   void saveModelData(){ 
+   void saveModelData(std::string PATH, double** &Coordinates, int** &Elements, int** &Restraints, int** &Constraints, double* &Force, 
+                      int* &Dofs, int Nnodes, int Nelems, int Nrestr, int Nconst){ 
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // SAVE COORDINATES DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
      std::string COORDINATES = PATH;
-     COORDINATES.append("/Coordinates.txt");
+     COORDINATES.append("Results/Coordinates.txt");
 
      std::ofstream OUTFILEcoord(COORDINATES.c_str()); 
+        OUTFILEcoord.precision(16);
 
-	OUTFILEcoord << Nnodes << 3 << std::endl;
+	OUTFILEcoord << Nnodes << " " << 3 << std::endl;
 
       //Save Values in Coordinates:
 	for(int i = 0; i < Nnodes; i++){
-	    OUTFILEcoord << Coordinates[i][0] << " " << Coordinates[i][1] << " " << Coordinates[i][2] << std::endl;
+	    OUTFILEcoord << Coordinates[i][0] << "\t" << Coordinates[i][1] << "\t" << Coordinates[i][2] << std::endl;
 	} 
 
      OUTFILEcoord.close(); 
+
+//------------------------------------------------------------------------------------------------------------------------------------
+// SAVE ELEMENTS DATA: 
+//------------------------------------------------------------------------------------------------------------------------------------
+     std::string ELEMENTS = PATH;
+     ELEMENTS.append("Results/Elements.txt");
+
+     std::ofstream OUTFILEelems(ELEMENTS.c_str()); 
+
+	OUTFILEcoord << Nelems << " " << 4 << std::endl;
+
+      //Save Values in Coordinates:
+	for(int i = 0; i < Nelems; i++){
+	    OUTFILEelems << Elements[i][0] << "\t" << Elements[i][1] << "\t" << Elements[i][2] << "\t" << Elements[i][3] << std::endl;
+	} 
+
+     OUTFILEelems.close();
+
+//------------------------------------------------------------------------------------------------------------------------------------
+// SAVE SOLUTION DATA: 
+//------------------------------------------------------------------------------------------------------------------------------------
+     std::string SOLUTION = PATH;
+     SOLUTION.append("Results/Solution.txt");
+
+     std::ofstream OUTFILEsolution(SOLUTION.c_str()); 
+        OUTFILEsolution.precision(16);
+
+      //Save Values in Coordinates:
+	for(int i = 0; i < Nnodes; i++){
+            if(Dofs[i] != -1){
+	       OUTFILEsolution << Force[Dofs[i]] << std::endl;
+            }
+            else{
+               OUTFILEsolution << 0 << std::endl;
+            }
+	} 
+
+     OUTFILEsolution.close();  
 
    }
 

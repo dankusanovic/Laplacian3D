@@ -12,7 +12,7 @@
   #ifndef SAVEMODELDATA_HH
   #define SAVEMODELDATA_HH
 
-   void saveModelData();
+   void saveModelData(std::string, double** &, int** &, int** &, int** &, double* &, int* &, int , int , int , int );
 
   #endif
 
