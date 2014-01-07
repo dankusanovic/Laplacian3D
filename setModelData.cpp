@@ -39,7 +39,7 @@
 // READ AND SAVE COORDINATES DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
      std::string COORDINATES = PATH;
-     COORDINATES.append("/Coordinates.txt");
+     COORDINATES.append("Model/Coordinates.txt");
 
      std::ifstream INFILEcoord(COORDINATES.c_str()); 
 
@@ -63,7 +63,7 @@
 // READ AND SAVE ELEMENTS DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
      std::string ELEMENTS = PATH;
-     ELEMENTS.append("/Elements.txt");
+     ELEMENTS.append("Model/Elements.txt");
 
      std::ifstream INFILEelems(ELEMENTS.c_str()); 
 
@@ -88,7 +88,7 @@
 // READ AND SAVE GAUSS POINTS DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
      std::string INTEGRATION = PATH;
-     INTEGRATION.append("/GaussPoints.txt");
+     INTEGRATION.append("Model/GaussPoints.txt");
 
      std::ifstream INFILEgauss(INTEGRATION.c_str()); 
 
@@ -112,7 +112,7 @@
 // READ AND SAVE RESTRAINT AND CONSTRAINT DATA:
 //------------------------------------------------------------------------------------------------------------------------------------
      std::string BOUNDARY = PATH;
-     BOUNDARY.append("/Boundary.txt");
+     BOUNDARY.append("Model/Boundary.txt");
 
      std::ifstream INFILEboundary(BOUNDARY.c_str()); 
 
