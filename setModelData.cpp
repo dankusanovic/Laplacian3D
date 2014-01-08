@@ -9,10 +9,16 @@
 //               Coordinates : List of coordinate values                          [Nnodes,3]
 //               Elements    : List of elements values                            [Nelems,3]
 //               GaussPoints : List of Gauss Integration values                   [Ngauss,3]
+//               Restraints  : Restrained nodal values                            [Nrestr,3]
+//               Dofs        : Free degree of freedom numbering                   [Nnodes,1]
+//               Nnodes      : Number of total nodes                              [1,1] 
+//               Nelems      : Number of total elements                           [1,1] 
+//               Nrestr      : Number of restrained nodes                         [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Output      : Coordinates : Updated list of coordinate values                  [Nnodes,3]
 //               Elements    : Updated list of element values                     [Nelems,3]
 //               GaussPoints : Updated list of Gauss Integration values           [Ngauss,3]
+//               Dofs        : Allocated memory for DOFs                          [Nnodes,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Folder      : 
 //------------------------------------------------------------------------------------------------------------------------------------
