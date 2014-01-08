@@ -1,18 +1,18 @@
 //====================================================================================================================================
-// IMPLEMENTATION FILE: "setAnalysis"
+// IMPLEMENTATION FILE: "MUMPSSolver"
 //====================================================================================================================================
-// Syntax      : MUMPSSolver(n, nz, *i, *j, *K, *F, sym, output)
+// Syntax      : MUMPSSolver(Nfree, Nzeros, row, col, Stiffness, Force, sym)
 //------------------------------------------------------------------------------------------------------------------------------------
 // Purpose     : Computes the vector solution for K*x = F. 
 //------------------------------------------------------------------------------------------------------------------------------------
-// Input       : n           : Number of unknowns                                 [1,1]
-//               nz          : Number of components in COO format                 [1,1]
-//               i           : Row vector components                              [nz,1]
-//               j           : Column vector components                           [nz,1]
-//               K           : Stiffness matrix vector values                     [nz,1]
-//               F           : Force vector values                                [n,1]
+// Input       : Nfree       : Number of unknowns                                 [1,1]
+//               Nzeros      : Number of components in COO format                 [1,1]
+//               row         : Row vector components                              [nz,1]
+//               col         : Column vector components                           [nz,1]
+//               Stiffness   : Stiffness matrix vector values                     [nz,1]
+//               Force       : Force vector values                                [n,1]
 //------------------------------------------------------------------------------------------------------------------------------------
-// Output      : F           : Solution vector values                             [n,1]
+// Output      : Force       : Solution vector values                             [n,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Folder      : 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@
   #include "dmumps_c.h"
   #include "MUMPSSolver.hh"
 
-   void MUMPSSolver(int n, int nz, int* &i, int* &j, double* &K, double* &F, unsigned int sym){
+   void MUMPSSolver(int Nfree, int Nzeros, int* &row, int* &col, double* &Stiffness, double* &Force, unsigned int sym){
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // INITIALIZES MUMPS SOLVER: 
@@ -45,12 +45,12 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // DEFINES THE PROBLEM ON THE HOST: 
 //------------------------------------------------------------------------------------------------------------------------------------
-     Model.n   = n; 
-     Model.nz  = nz;
-     Model.irn = i; 
-     Model.jcn = j;
-     Model.a   = K; 
-     Model.rhs = F;
+     Model.n   = Nfree; 
+     Model.nz  = Nzeros;
+     Model.irn = row; 
+     Model.jcn = col;
+     Model.a   = Stiffness; 
+     Model.rhs = Force;
 
    //No outputs Messages: Erros, warnings.
      Model.ICNTL(1)  = 0; 
