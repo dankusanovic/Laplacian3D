@@ -1,17 +1,32 @@
 //====================================================================================================================================
-// IMPLEMENTATION FILE: "setAnalysis"
+// IMPLEMENTATION FILE: "freeModelData"
 //====================================================================================================================================
-// Syntax      : freeModelData(PATH, Coordinates, Elements, GaussPoints)
+// Syntax      : freeModelData(Coordinates, Elements, GaussPoints, Restraints, Constraints, Dofs, Stiffness, Force, row, col, Nnodes, 
+//                             Nelems, Ngauss, Nrestr, Nconst)
 //------------------------------------------------------------------------------------------------------------------------------------
 // Purpose     : Frees FEM variables of the analyzed Model. 
 //------------------------------------------------------------------------------------------------------------------------------------
 // Input       : Coordinates : List of coordinate values                          [Nnodes,3]
 //               Elements    : List of elements values                            [Nelems,3]
 //               GaussPoints : List of Gauss Integration values                   [Ngauss,3]
+//               Restraints  : Restrained nodal values                            [Nrestr,3]
+//               Dofs        : Free degree of freedom numbering                   [Nnodes,1]
+//               Stiffness   : List of Stiffness values                           [Nzeros,1]
+//               Force       : Force vector values                                [Nnodes,1]
+//               row         : List of indeces i for the K matrix                 [Nelems,1]
+//               col         : List of indeces j for the K matrix                 [Nelems,1]
+//               Nnodes      : Number of total nodes                              [1,1] 
+//               Nelems      : Number of total elements                           [1,1] 
+//               Nrestr      : Number of restrained nodes                         [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Output      : Coordinates : Cleaned up list of coordinate values               [0,0]
 //               Elements    : Cleaned up list of element values                  [0,0]
 //               GaussPoints : Cleaned up list of Gauss Integration values        [0,0]
+//               Restraints  : Cleaned up list of Restrained values               [0,0]
+//               Stiffness   : Cleaned up list of Stiffness values                [0,0]
+//               Force       : Cleaned up list of Force values                    [0,0]
+//               row         : Cleaned up list of indeces i for the K matrix      [0,0]
+//               col         : Cleaned up list of indeces j for the K matrix      [0,0]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Folder      : 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -69,7 +84,7 @@
      delete[] Constraints;
 
 //------------------------------------------------------------------------------------------------------------------------------------
-// FREE FORCE VECTOR DATA: 
+// FREE DOFS VECTOR DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
      delete[] Dofs;
 

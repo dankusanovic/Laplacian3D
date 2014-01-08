@@ -7,7 +7,7 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // Input       : Coordinates : List of coordinate values                          [Nnodes,3]
 //               Elements    : List of elements values                            [Nelems,3]
-//               Stiffness   : List of Stiffness values                           [Nelems,1]
+//               Stiffness   : List of Stiffness values                           [Nzeros,1]
 //               row         : List of indeces i for the K matrix                 [Nelems,1]
 //               col         : List of indeces j for the K matrix                 [Nelems,1]
 //               Dofs        : Free degree of freedom numbering                   [Nnodes,1]
