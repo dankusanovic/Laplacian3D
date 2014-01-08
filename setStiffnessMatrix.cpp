@@ -1,5 +1,5 @@
 //====================================================================================================================================
-// IMPLEMENTATION FILE: "setForceVector"
+// IMPLEMENTATION FILE: "setStiffnessMatrix"
 //====================================================================================================================================
 // Syntax      : setStiffnessMatrix(Coordinates, Elements, Stiffness,row,col,Nelems)
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -10,6 +10,7 @@
 //               Stiffness   : List of Stiffness values                           [Nelems,1]
 //               row         : List of indeces i for the K matrix                 [Nelems,1]
 //               col         : List of indeces j for the K matrix                 [Nelems,1]
+//               Dofs        : Free degree of freedom numbering                   [Nnodes,1]
 //               Nelems      : Number of elements                                 [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Output      : Stiffness   : Stiffness matrix values                            [Nelems,1]

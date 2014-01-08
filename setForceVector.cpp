@@ -1,13 +1,15 @@
 //====================================================================================================================================
 // IMPLEMENTATION FILE: "setForceVector"
 //====================================================================================================================================
-// Syntax      : setForceVector(Coordinates, Elements, GaussPoints,Force,Nelems,Ngauss)
+// Syntax      : setForceVector(Coordinates, Elements, GaussPoints,Force,Dofs,Nnodes,Nelems,Ngauss)
 //------------------------------------------------------------------------------------------------------------------------------------
 // Purpose     : Computes the force vector imposing boundary conditions. 
 //------------------------------------------------------------------------------------------------------------------------------------
 // Input       : Coordinates : List of coordinate values                          [Nnodes,3]
 //               Elements    : List of elements values                            [Nelems,3]
 //               GaussPoints : List of Gauss Integration values                   [Ngauss,3]
+//               Force       : Force vector values                                [Nnodes,1]
+//               Dofs        : Free degree of freedom numbering                   [Nnodes,1]
 //               Nelems      : Number of elements                                 [1,1]
 //               Ngauss      : Number of integration points                       [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
