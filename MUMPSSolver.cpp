@@ -7,12 +7,12 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // Input       : Nfree       : Number of unknowns                                 [1,1]
 //               Nzeros      : Number of components in COO format                 [1,1]
-//               row         : Row vector components                              [nz,1]
-//               col         : Column vector components                           [nz,1]
-//               Stiffness   : Stiffness matrix vector values                     [nz,1]
-//               Force       : Force vector values                                [n,1]
+//               row         : Row vector components                              [Nzeros,1]
+//               col         : Column vector components                           [Nzeros,1]
+//               Stiffness   : Stiffness matrix vector values                     [Nzeros,1]
+//               Force       : Force vector values                                [Nfree,1]
 //------------------------------------------------------------------------------------------------------------------------------------
-// Output      : Force       : Solution vector values                             [n,1]
+// Output      : Force       : Solution vector values                             [Nfree,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Folder      : 
 //------------------------------------------------------------------------------------------------------------------------------------
