@@ -46,11 +46,11 @@
      COORDINATES.append("Results/Coordinates.txt");
 
      std::ofstream OUTFILEcoord(COORDINATES.c_str()); 
-        OUTFILEcoord.precision(16);
-
+      
 	OUTFILEcoord << Nnodes << " " << 3 << std::endl;
 
       //Save Values in Coordinates:
+        OUTFILEcoord.precision(16);
 	for(int i = 0; i < Nnodes; i++){
 	    OUTFILEcoord << Coordinates[i][0] << "\t" << Coordinates[i][1] << "\t" << Coordinates[i][2] << std::endl;
 	} 
@@ -65,11 +65,11 @@
 
      std::ofstream OUTFILEelems(ELEMENTS.c_str()); 
 
-	OUTFILEcoord << Nelems << " " << 4 << std::endl;
+	OUTFILEelems << Nelems << " " << 4 << std::endl;
 
       //Save Values in Coordinates:
 	for(int i = 0; i < Nelems; i++){
-	    OUTFILEelems << Elements[i][0] << "\t" << Elements[i][1] << "\t" << Elements[i][2] << "\t" << Elements[i][3] << std::endl;
+	    OUTFILEelems << Elements[i][0] + 1 << "\t" << Elements[i][1] + 1 << "\t" << Elements[i][2] + 1 << "\t" << Elements[i][3] + 1 << std::endl;
 	} 
 
      OUTFILEelems.close();

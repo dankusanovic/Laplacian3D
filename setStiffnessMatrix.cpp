@@ -104,13 +104,13 @@
              DOFi = Dofs[Elements[k][i]]; 
 
              for(int j = 0; j < 4; j++){
-                 DOFj= Dofs[Elements[k][j]];
+                 DOFj = Dofs[Elements[k][j]];
 
                  if(DOFi != -1 &&  DOFj != -1){
 	          //COO Stiffness Matix format:
 		    row[count]       = DOFi + 1;
 		    col[count]       = DOFj + 1;
-		    Stiffness[count] = 1.0/Volume*(nx[i]*nx[j] + ny[i]*ny[j] + nz[i]*nz[j]);
+		    Stiffness[count] = (nx[i]*nx[j] + ny[i]*ny[j] + nz[i]*nz[j])/Volume;
 
 		  //Increases index for COO format:
 		    count = count + 1;
