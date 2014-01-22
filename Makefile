@@ -8,7 +8,7 @@ LPATH	= -L/usr/lib/gcc/x86_64-linux-gnu/4.8
 LIBS	= -lgfortran -lblas -lpthread -lmpiseq_seq -lmumps_common_seq -ldmumps_seq 
 NVARCH	= 
 NVFLAGS	= $(CFLAGS) 
-TARGS	= Main.o setAnalysis.o setModelData.o allocateModelData.o setModelDofs.o setForceVector.o setStiffnessMatrix.o MUMPSSolver.o saveModelData.o freeModelData.o 
+TARGS	= Main.o setAnalysis.o setModelData.o allocateModelData.o setModelDofs.o setForceVector.o setStiffnessMatrix.o MUMPSSolver.o setRealSolution.o saveModelData.o freeModelData.o 
 
 all:	$(EXE)
 
