@@ -31,6 +31,7 @@
   #include "saveModelData.hh"
   #include "freeModelData.hh"
   #include "setForceVector.hh"
+  #include "setRealSolution.hh"
   #include "allocateModelData.hh"
   #include "setStiffnessMatrix.hh"
 
@@ -43,6 +44,7 @@
      for(int k = 0; k < ITER; k++){
 
        //Model Dimension:
+         double TotalError;
          int Nnodes, Nelems, Ngauss, Nrestr, Nconst, Nfree, Nzeros;
 
        //Model Variables:
@@ -70,11 +72,17 @@
       //------------------------------------------------------------------------------------------------------------------------------
       // POST-ANALYSIS: 
       //------------------------------------------------------------------------------------------------------------------------------
-       //Save Solution:
+       //Exact Solution:
+         setRealSolution(Coordinates,Elements,GaussPoints,Force,TotalError,Nelems,Ngauss);
+
+	 std::cout << std::endl;
+	 std::cout << "nDOfs: "<< Nfree << " Error: " << TotalError << std::endl;
+
+       //Store Solution:
          saveModelData(PATH,Coordinates,Elements,Restraints,Constraints,Force,Dofs,Nnodes,Nelems,Nrestr,Nconst);
 
        //Mesh Refiner:
-         //system("./refinement");
+         //system("./Refinement");
 
        //Free Memory:
          freeModelData(Coordinates,Elements,GaussPoints,Restraints,Constraints,Dofs,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
