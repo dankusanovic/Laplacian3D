@@ -106,7 +106,7 @@
              for(int j = 0; j < 4; j++){
                  DOFj = Dofs[Elements[k][j]];
 
-                 if(DOFi != -1 &&  DOFj != -1){
+                 if(DOFi != -1 && DOFj != -1){
 	          //COO Stiffness Matix format:
 		    row[count]       = DOFi + 1;
 		    col[count]       = DOFj + 1;
