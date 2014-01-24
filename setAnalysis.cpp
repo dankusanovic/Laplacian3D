@@ -6,10 +6,8 @@
 // Purpose     : Sets the parameters for the analysis. 
 //------------------------------------------------------------------------------------------------------------------------------------
 // Input       : ITER        : Number of iterations                               [1,1]
-//               PATH        : Path to the folder files                           [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Output      : ITER        : Number of iterations                               [1,1]
-//               PATH        : Path to the folder files                           [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Folder      : 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -21,12 +19,11 @@
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #include <string>
   #include <cstdlib>
   #include <sstream>
   #include <iostream>
 
-   void setAnalysis(int argc, char** argv, std::string &PATH, int &ITER){
+   void setAnalysis(int argc, char** argv, int &ITER){
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // INPUTS FILES TO BE LOADED: 
@@ -34,17 +31,11 @@
      switch(argc){
         case 1: {
 	         ITER = 8;
-                 PATH = "./";
                  break;
 	        }
+
         case 2: {
     	         ITER = atoi(argv[1]);
-                 PATH = "./";
-                 break;
-	        }
-        case 3: {
-	         ITER = atoi(argv[1]);
-                 PATH = std::string(argv[2]);
                  break;
 	        }
 
@@ -54,9 +45,10 @@
      }
 
 //------------------------------------------------------------------------------------------------------------------------------------
-// ANALYSIS TO BE CARRIED OUT: 
+// GENERATES A BACKUP FILE:
 //------------------------------------------------------------------------------------------------------------------------------------
-// Number of degree of freedom migth be also be given per node (Use variable NDOF).
+     //system("cp ./Model/MeshData.txt ./Model/3d_refined.mesh3d");
+     system("cp MeshData.txt 3d_refined.mesh3d");
      
    }
 
