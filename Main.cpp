@@ -6,7 +6,6 @@
 // Purpose     : Runs the specified model located at PATH. 
 //------------------------------------------------------------------------------------------------------------------------------------
 // Input       : ITER        : Number of iterations                               [1,1]
-//               PATH        : Path to the folder files                           [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Output      : Coordinates : List of coordinate values                          [Nnodes,3]
 //               Elements    : List of elements values                            [Nelems,3]
@@ -22,7 +21,7 @@
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #include <string>   
+  #include <cstdlib>
   #include <iostream> 
   #include "MUMPSSolver.hh"
   #include "setAnalysis.hh"
@@ -31,6 +30,7 @@
   #include "saveModelData.hh"
   #include "freeModelData.hh"
   #include "setForceVector.hh"
+  #include "setMeshRefiner.hh" 
   #include "setRealSolution.hh"
   #include "allocateModelData.hh"
   #include "setStiffnessMatrix.hh"
@@ -38,26 +38,24 @@
    int main(int argc, char** argv){
 
      int ITER;
-     std::string PATH = "";
-     setAnalysis(argc,argv,PATH,ITER);
+     setAnalysis(argc,argv,ITER);
 
      for(int k = 0; k < ITER; k++){
 
        //Model Dimension:
-         double TotalError;
-         int Nnodes, Nelems, Ngauss, Nrestr, Nconst, Nfree, Nzeros;
+         int Nnodes, Nelems, Nfaces, Ngauss, Nfree, Nzeros;
 
-       //Model Variables:
-         int    **Elements, **Restraints, **Constraints, *Dofs, *row, *col;
-         double **GaussPoints, **Coordinates, *Stiffness, *Force; 
+       //Model Variables:  
+         int    **Elements, **Boundaries, **MeshRefine, *Restraints, *Dofs, *row, *col;
+         double **GaussPoints, **Coordinates, *Stiffness, *Force, Error; 
 
       //------------------------------------------------------------------------------------------------------------------------------
       // PRE-ANALYSIS :  
       //------------------------------------------------------------------------------------------------------------------------------
        //Reads information:
-          setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Dofs,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
-          setModelDofs(Elements,Restraints,Dofs,Nnodes,Nelems,Nrestr,Nfree,Nzeros);
-          allocateModelData(Stiffness,Force,row,col,Nfree,Nzeros);
+         setModelData(Coordinates,Elements,Boundaries,MeshRefine,GaussPoints,Restraints,Nnodes,Nelems,Nfaces,Ngauss);
+         setModelDofs(Elements,Restraints,Dofs,Nnodes,Nelems,Nfree,Nzeros);
+         allocateModelData(Stiffness,Force,row,col,Nfree,Nzeros);
 
       //------------------------------------------------------------------------------------------------------------------------------
       // RUN-ANALYSIS :  
@@ -67,25 +65,24 @@
          setStiffnessMatrix(Coordinates,Elements,Stiffness,row,col,Dofs,Nelems);
 
        //FEM Solution:
-         MUMPSSolver(Nfree,Nzeros,row,col,Stiffness, Force,0);
+         MUMPSSolver(Nfree,Nzeros,row,col,Stiffness,Force,0);
 
       //------------------------------------------------------------------------------------------------------------------------------
       // POST-ANALYSIS: 
       //------------------------------------------------------------------------------------------------------------------------------
        //Exact Solution:
-         setRealSolution(Coordinates,Elements,GaussPoints,Force,TotalError,Nelems,Ngauss);
-
-	 std::cout << std::endl;
-	 std::cout << "nDOfs: "<< Nfree << " Error: " << TotalError << std::endl;
+         //setRealSolution(Coordinates,Elements,GaussPoints,Force,Error,Nelems,Ngauss);
 
        //Store Solution:
-         saveModelData(PATH,Coordinates,Elements,Restraints,Constraints,Force,Dofs,Nnodes,Nelems,Nrestr,Nconst);
+         //saveModelData(Coordinates,Elements,Force,Dofs,Nnodes,Nelems);
 
        //Mesh Refiner:
-         //system("./Refinement");
+         setMeshRefiner(Coordinates,Elements,MeshRefine,Boundaries,Nnodes,Nelems,Nfaces);
+       //system("./Model/Refinement");
+         system("./Refinement");
 
        //Free Memory:
-         freeModelData(Coordinates,Elements,GaussPoints,Restraints,Constraints,Dofs,Stiffness,Force,row,col,Nnodes,Nelems,Ngauss,Nrestr,Nconst);
+         freeModelData(Coordinates,Elements,GaussPoints,MeshRefine,Boundaries,Restraints,Dofs,Stiffness,Force,row,col,Nnodes,Nelems,Nfaces,Ngauss);
 
      }
 
