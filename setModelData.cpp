@@ -1,19 +1,17 @@
 //====================================================================================================================================
 // IMPLEMENTATION FILE: "setModelData"
 //====================================================================================================================================
-// Syntax      : setModelData(PATH,Coordinates,Elements,GaussPoints,Restraints,Constraints,Dofs,Nnodes,Nelems,Ngauss,Nrestr,Nconst)
+// Syntax      : setModelData(Coordinates,Elements,GaussPoints,Restraints,Constraints,Dofs,Nnodes,Nelems,Ngauss,Nrestr,Nconst)
 //------------------------------------------------------------------------------------------------------------------------------------
 // Purpose     : Sets FEM Model of analysis. 
 //------------------------------------------------------------------------------------------------------------------------------------
-// Input       : PATH        : Path to the folder files                           [1,1]
-//               Coordinates : List of coordinate values                          [Nnodes,3]
+// Input       : Coordinates : List of coordinate values                          [Nnodes,3]
 //               Elements    : List of elements values                            [Nelems,3]
 //               GaussPoints : List of Gauss Integration values                   [Ngauss,3]
 //               Restraints  : Restrained nodal values                            [Nrestr,3]
 //               Dofs        : Free degree of freedom numbering                   [Nnodes,1]
 //               Nnodes      : Number of total nodes                              [1,1] 
 //               Nelems      : Number of total elements                           [1,1] 
-//               Nrestr      : Number of restrained nodes                         [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Output      : Coordinates : Updated list of coordinate values                  [Nnodes,3]
 //               Elements    : Updated list of element values                     [Nelems,3]
@@ -30,81 +28,131 @@
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #include <string>
   #include <cstdlib>
   #include <sstream>
   #include <fstream>
   #include <iostream>
   
-   void setModelData(std::string PATH, double** &Coordinates, int** &Elements, double ** &GaussPoints, int** &Restraints, int** &Constraints, 
-                     int* &Dofs, int &Nnodes, int &Nelems, int &Ngauss, int &Nrestr, int &Nconst){ 
-
-     int cols;
+   void setModelData(double** &Coordinates, int** &Elements, int** &Boundaries, int** &MeshRefine, double ** &GaussPoints, 
+                     int* &Restraints, int &Nnodes, int &Nelems, int &Nfaces, int &Ngauss){ 
 
 //------------------------------------------------------------------------------------------------------------------------------------
-// READ AND SAVE COORDINATES DATA: 
+// READ THE BOUNDARY FACES: 
 //------------------------------------------------------------------------------------------------------------------------------------
-     std::string COORDINATES = PATH;
-     COORDINATES.append("Model/Coordinates.txt");
+     //std::ifstream INFILEbound("./Model/Boundaries.txt"); 
+     std::ifstream INFILEbound("Boundaries.txt"); 
 
-     std::ifstream INFILEcoord(COORDINATES.c_str()); 
+	INFILEbound >> Nfaces;
 
-	INFILEcoord >> Nnodes >> cols;
+        int BFaces[Nfaces];
+
+      //Memory Allocation for Boundary Faces:
+        for(int i = 0; i < Nfaces; i++){
+            INFILEbound >> BFaces[i]; 
+        }
+
+     INFILEbound.close(); 
+
+//------------------------------------------------------------------------------------------------------------------------------------
+// READ COORDINATES INFORMATION: 
+//------------------------------------------------------------------------------------------------------------------------------------
+   //std::ifstream INFILEdata("./Model/3d_refined.mesh3d"); 
+     std::ifstream INFILEdata("3d_refined.mesh3d");
+
+	INFILEdata >> Nnodes;
 
       //Memory Allocation for Coordinates:
         Coordinates = new double* [Nnodes];
 
         for(int i = 0; i < Nnodes; i++){
-            Coordinates[i] = new double[cols]; 
+            Coordinates[i] = new double[3]; 
         }
 
       //Save Values in Coordinates:
 	for(int i = 0; i < Nnodes; i++){
-	    INFILEcoord >> Coordinates[i][0] >> Coordinates[i][1] >> Coordinates[i][2];
+	    INFILEdata >> Coordinates[i][0] >> Coordinates[i][1] >> Coordinates[i][2];
 	} 
 
-     INFILEcoord.close(); 
-
 //------------------------------------------------------------------------------------------------------------------------------------
-// READ AND SAVE ELEMENTS DATA: 
+// READ ELEMENTS INFORMATION: 
 //------------------------------------------------------------------------------------------------------------------------------------
-     std::string ELEMENTS = PATH;
-     ELEMENTS.append("Model/Elements.txt");
+	INFILEdata >> Nelems;
 
-     std::ifstream INFILEelems(ELEMENTS.c_str()); 
-
-	INFILEelems >> Nelems >> cols;
-
-      //Memory Allocation for Coordinates:
-        Elements = new int* [Nelems];
+      //Memory Allocation for Elements:
+        Elements   = new int* [Nelems];
+        MeshRefine = new int* [Nelems];
 
         for(int i = 0; i < Nelems; i++){
-            Elements[i] = new int[cols]; 
+            Elements[i]   = new int[4]; 
+            MeshRefine[i] = new int[3];
         }
 
-      //Save Values in Coordinates:
+      //Save Values in Elements:
 	for(int i = 0; i < Nelems; i++){
-	    INFILEelems >> Elements[i][0] >> Elements[i][1] >> Elements[i][2] >> Elements[i][3];
+	    INFILEdata >> MeshRefine[i][0] >> MeshRefine[i][1] >> MeshRefine[i][2] 
+                       >>   Elements[i][0] >>   Elements[i][1] >>   Elements[i][2] >> Elements[i][3];
+  
+          //C++ Format index:
             Elements[i][0]--; Elements[i][1]--; Elements[i][2]--; Elements[i][3]--;
 	} 
 
-     INFILEelems.close(); 
+//------------------------------------------------------------------------------------------------------------------------------------
+// READ BOUNDARY INFORMATION: 
+//------------------------------------------------------------------------------------------------------------------------------------
+	INFILEdata >> Nfaces;
+
+      //Memory Allocation for Boundaries:
+        Boundaries = new int* [Nfaces];
+
+        for(int i = 0; i < Nfaces; i++){
+            Boundaries[i] = new int[4]; 
+        }
+
+      //Memory Allocation for Restraints:
+        Restraints = new int[Nnodes];
+
+      //Initialization of Restraints Vector:
+        for(int i = 0; i < Nnodes; i++){
+            Restraints[i] = 0;
+        }
+
+      //Save Values in Boundaries:
+	for(int i = 0; i < Nfaces; i++){
+	    INFILEdata >> Boundaries[i][0] >> Boundaries[i][1] >> Boundaries[i][2] >> Boundaries[i][3];
+  
+          //C++ Format index:
+            Boundaries[i][0]--; Boundaries[i][1]--; Boundaries[i][2]--; Boundaries[i][3]--;
+
+	    switch(BFaces[Boundaries[i][0]]){
+		case 1: {
+		         Restraints[Boundaries[i][1]] = 1;
+		         Restraints[Boundaries[i][2]] = 1;
+		         Restraints[Boundaries[i][3]] = 1;
+		         break;
+			}
+
+		case 2: {
+		       //Not yet Implemented.
+		         break;
+			}
+	     }
+	} 
+
+   INFILEdata.close();
 
 //------------------------------------------------------------------------------------------------------------------------------------
-// READ AND SAVE GAUSS POINTS DATA: 
+// READ INTEGRATION DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
-     std::string INTEGRATION = PATH;
-     INTEGRATION.append("Model/GaussPoints.txt");
+   //std::ifstream INFILEgauss("./Model/GaussPoints.txt"); 
+   std::ifstream INFILEgauss("GaussPoints.txt"); 
 
-     std::ifstream INFILEgauss(INTEGRATION.c_str()); 
-
-	INFILEgauss >> Ngauss >> cols;
+	INFILEgauss >> Ngauss;
 
       //Memory Allocation for Coordinates:
         GaussPoints = new double* [Ngauss];
 
         for(int i = 0; i < Ngauss; i++){
-            GaussPoints[i] = new double[cols]; 
+            GaussPoints[i] = new double[5]; 
         }
 
       //Save Values in Coordinates:
@@ -112,60 +160,7 @@
 	    INFILEgauss >> GaussPoints[i][0] >> GaussPoints[i][1] >> GaussPoints[i][2] >> GaussPoints[i][3] >> GaussPoints[i][4];
 	} 
 
-     INFILEgauss.close(); 
-
-//------------------------------------------------------------------------------------------------------------------------------------
-// READ AND SAVE RESTRAINT AND CONSTRAINT DATA:
-//------------------------------------------------------------------------------------------------------------------------------------
-     std::string BOUNDARY = PATH;
-     BOUNDARY.append("Model/Boundary.txt");
-
-     std::ifstream INFILEboundary(BOUNDARY.c_str()); 
-
-	INFILEboundary >> Nrestr >> Nconst >> cols;
-
-      //Memory Allocation for Restraints:
-        Restraints = new int* [Nrestr];
-
-        for(int i = 0; i < Nrestr; i++){
-            Restraints[i] = new int[cols]; 
-        }
-
-      //Memory Allocation for Constraints:
-        Constraints = new int* [Nconst];
-
-        for(int i = 0; i < Nconst; i++){
-            Constraints[i] = new int[cols]; 
-        }
-
-      //Differentiate between Restraints (1) and Constraints (2): 
-        int j = 0, k = 0, Nboundary = Nrestr + Nconst;
-
-        for(int i = 0; i < Nboundary; i++){
-            int cond, dumm;
-            INFILEboundary >> cond;
-
-            if(cond == 1){
-               INFILEboundary >> dumm >> Restraints[j][0] >> Restraints[j][1] >> Restraints[j][2];
-               Restraints[j][0]--; Restraints[j][1]--; Restraints[j][2]--;
-               j = j + 1;
-            }
-            else if(cond == 2){ 
-               INFILEboundary >> dumm >> Constraints[k][0] >> Constraints[k][1] >> Constraints[k][2];
-               Constraints[j][0]--; Constraints[j][1]--; Constraints[j][2]--;
-               k = k + 1;
-            }
-        }
-
-     INFILEboundary.close(); 
-//------------------------------------------------------------------------------------------------------------------------------------
-// ALLOCATES DOFS VECTOR DATA: 
-//------------------------------------------------------------------------------------------------------------------------------------
-     Dofs = new int[Nnodes];
-
-     for(int i = 0; i < Nnodes; i++){
-         Dofs[i] = 0;
-     }
+   INFILEgauss.close(); 
 
    }
 

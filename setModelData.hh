@@ -12,7 +12,7 @@
   #ifndef SETMODELDATA_HH
   #define SETMODELDATA_HH
 
-   void setModelData(std::string, double** &, int** &, double ** &, int** &, int** &, int* &, int &, int &, int &, int &, int &);
+   void setModelData(double** &, int** &, int** &, int** &, double ** &, int* &, int &, int &, int &, int &);
 
   #endif
 
