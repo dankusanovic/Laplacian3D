@@ -40,8 +40,9 @@
 
   #include <iostream>
   
-   void freeModelData(double** &Coordinates, int** &Elements, double** &GaussPoints, int** &Restraints, int** &Constraints, int* &Dofs,
-                      double* &Stiffness, double* &Force, int* &row, int* &col, int Nnodes, int Nelems, int Ngauss, int Nrestr, int Nconst){
+   void freeModelData(double** &Coordinates, int** &Elements, double** &GaussPoints, int** &MeshRefine, int** &Boundaries, 
+                      int* &Restraints, int* &Dofs, double* &Stiffness, double* &Force, int* &row, int* &col, int Nnodes, 
+                      int Nelems, int Nfaces, int Ngauss){ 
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // FREE COORDINATES DATA: 
@@ -68,20 +69,20 @@
      delete[] GaussPoints;
 
 //------------------------------------------------------------------------------------------------------------------------------------
-// FREE RESTRAINT DATA: 
+// FREE REFINEMENT DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
-     for(int i = 0; i < Nrestr; i++){
-          delete[] Restraints[i]; 
+     for(int i = 0; i < Nelems; i++){
+          delete[] MeshRefine[i]; 
      }
-     delete[] Restraints;
+     delete[] MeshRefine;
 
 //------------------------------------------------------------------------------------------------------------------------------------
-// FREE RESTRAINT DATA: 
+// FREE BOUNDARY DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
-     for(int i = 0; i < Nconst; i++){
-          delete[] Constraints[i]; 
+     for(int i = 0; i < Nfaces; i++){
+          delete[] Boundaries[i]; 
      }
-     delete[] Constraints;
+     delete[] Boundaries;
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // FREE DOFS VECTOR DATA: 
@@ -99,6 +100,11 @@
 // FREE FORCE VECTOR DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
      delete[] Force;
+
+//------------------------------------------------------------------------------------------------------------------------------------
+// FREE RESTRAINT DATA: 
+//------------------------------------------------------------------------------------------------------------------------------------
+     delete[] Restraints;
 
    }
 
