@@ -83,19 +83,19 @@
       //------------------------------------------------------------------------------------------------------------------------------
       // LOCAL ELEMENT VOLUME COMPUTATION:
       //------------------------------------------------------------------------------------------------------------------------------
-         ux = Coordinates[Elements[k][1]][0] - Coordinates[Elements[k][0]][0];
-         uy = Coordinates[Elements[k][1]][1] - Coordinates[Elements[k][0]][1];
-         uz = Coordinates[Elements[k][1]][2] - Coordinates[Elements[k][0]][2];
+         ux = Coordinates[Elements[k][1]][0] - Coordinates[Elements[k][3]][0];
+	 uy = Coordinates[Elements[k][1]][1] - Coordinates[Elements[k][3]][1];
+	 uz = Coordinates[Elements[k][1]][2] - Coordinates[Elements[k][3]][2];
 
-         vx = Coordinates[Elements[k][2]][0] - Coordinates[Elements[k][0]][0];
-         vy = Coordinates[Elements[k][2]][1] - Coordinates[Elements[k][0]][1];
-         vz = Coordinates[Elements[k][2]][2] - Coordinates[Elements[k][0]][2];
+	 vx = Coordinates[Elements[k][2]][0] - Coordinates[Elements[k][3]][0];
+	 vy = Coordinates[Elements[k][2]][1] - Coordinates[Elements[k][3]][1];
+	 vz = Coordinates[Elements[k][2]][2] - Coordinates[Elements[k][3]][2];
 
-         wx = Coordinates[Elements[k][3]][0] - Coordinates[Elements[k][0]][0];
-         wy = Coordinates[Elements[k][3]][1] - Coordinates[Elements[k][0]][1];
-         wz = Coordinates[Elements[k][3]][2] - Coordinates[Elements[k][0]][2];
+         wx = Coordinates[Elements[k][0]][0] - Coordinates[Elements[k][3]][0];
+         wy = Coordinates[Elements[k][0]][1] - Coordinates[Elements[k][3]][1];
+         wz = Coordinates[Elements[k][0]][2] - Coordinates[Elements[k][3]][2];
 
-         Volume = 1.5*fabs(ux*(vy*wz - vz*wy) - uy*(vx*wz - vz*wx) + uz*(vx*wy - vy*wx));
+         Volume = 1.5*(wx*(uy*vz - vy*uz) + wy*(uz*vx - vz*ux) + wz*(ux*vy - vx*uy));
 
       //------------------------------------------------------------------------------------------------------------------------------
       // COMPUTES LOCAL ELEMENT STIFFNESS MATRIX:
