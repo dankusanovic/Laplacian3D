@@ -30,27 +30,22 @@
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #include <string>
   #include <cstdlib>
   #include <sstream>
   #include <fstream>
   #include <iostream>
   
-   void saveModelData(std::string PATH, double** &Coordinates, int** &Elements, int** &Restraints, int** &Constraints, double* &Force, 
-                      int* &Dofs, int Nnodes, int Nelems, int Nrestr, int Nconst){ 
+   void saveModelData(double** &REFINE, int ITER, double** &Coordinates, int** &Elements, double* &Force, int* &Dofs, int Nnodes, int Nelems){ 
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // SAVE COORDINATES DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
-     std::string COORDINATES = PATH;
-     COORDINATES.append("Results/Coordinates.txt");
-
-     std::ofstream OUTFILEcoord(COORDINATES.c_str()); 
+     std::ofstream OUTFILEcoord("Results/Coordinates.txt"); 
       
-	OUTFILEcoord << Nnodes << " " << 3 << std::endl;
+	OUTFILEcoord << Nnodes << std::endl;
 
       //Save Values in Coordinates:
-        OUTFILEcoord.precision(16);
+        OUTFILEcoord.precision(20);
 	for(int i = 0; i < Nnodes; i++){
 	    OUTFILEcoord << Coordinates[i][0] << "\t" << Coordinates[i][1] << "\t" << Coordinates[i][2] << std::endl;
 	} 
@@ -60,16 +55,14 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // SAVE ELEMENTS DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
-     std::string ELEMENTS = PATH;
-     ELEMENTS.append("Results/Elements.txt");
+     std::ofstream OUTFILEelems("Results/Elements.txt"); 
 
-     std::ofstream OUTFILEelems(ELEMENTS.c_str()); 
-
-	OUTFILEelems << Nelems << " " << 4 << std::endl;
+	OUTFILEelems << Nelems << std::endl;
 
       //Save Values in Coordinates:
 	for(int i = 0; i < Nelems; i++){
-	    OUTFILEelems << Elements[i][0] + 1 << "\t" << Elements[i][1] + 1 << "\t" << Elements[i][2] + 1 << "\t" << Elements[i][3] + 1 << std::endl;
+	    OUTFILEelems << Elements[i][0] + 1 << "\t" << Elements[i][1] + 1 << "\t" << Elements[i][2] + 1 << "\t" 
+                         << Elements[i][3] + 1 << std::endl;
 	} 
 
      OUTFILEelems.close();
@@ -77,11 +70,8 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // SAVE SOLUTION DATA: 
 //------------------------------------------------------------------------------------------------------------------------------------
-     std::string SOLUTION = PATH;
-     SOLUTION.append("Results/Solution.txt");
-
-     std::ofstream OUTFILEsolution(SOLUTION.c_str()); 
-        OUTFILEsolution.precision(16);
+     std::ofstream OUTFILEsolution("Results/Solution.txt"); 
+        OUTFILEsolution.precision(20);
 
       //Save Values in Coordinates:
 	for(int i = 0; i < Nnodes; i++){
@@ -94,6 +84,19 @@
 	} 
 
      OUTFILEsolution.close();  
+
+//------------------------------------------------------------------------------------------------------------------------------------
+// SAVE CONVERGENCE DATA: 
+//------------------------------------------------------------------------------------------------------------------------------------
+     std::ofstream OUTFILEconvergence("Results/Convergence.txt"); 
+        OUTFILEconvergence.precision(20);
+
+      //Save Values in Coordinates:
+	for(int i = 0; i < ITER; i++){
+            OUTFILEconvergence << "Iteration : " << REFINE[i][0] << "\t NDofs: " << REFINE[i][1] << "\t Error: " << REFINE[i][2] << std::endl;
+	} 
+
+     OUTFILEconvergence.close();  
 
    }
 
