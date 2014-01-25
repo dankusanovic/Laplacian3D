@@ -21,24 +21,24 @@
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #include <cstdlib>
   #include <iostream> 
   #include "MUMPSSolver.hh"
   #include "setAnalysis.hh"
   #include "setModelData.hh"
   #include "setModelDofs.hh"
+  #include "setTotalError.hh"
   #include "saveModelData.hh"
   #include "freeModelData.hh"
   #include "setForceVector.hh"
   #include "setMeshRefiner.hh" 
-  #include "setRealSolution.hh"
   #include "allocateModelData.hh"
   #include "setStiffnessMatrix.hh"
 
    int main(int argc, char** argv){
 
      int ITER;
-     setAnalysis(argc,argv,ITER);
+     double **REFINE;
+     setAnalysis(argc,argv,ITER,REFINE);
 
      for(int k = 0; k < ITER; k++){
 
@@ -47,7 +47,7 @@
 
        //Model Variables:  
          int    **Elements, **Boundaries, **MeshRefine, *Restraints, *Dofs, *row, *col;
-         double **GaussPoints, **Coordinates, *Stiffness, *Force, Error; 
+         double **GaussPoints, **Coordinates, *Stiffness, *Force; 
 
       //------------------------------------------------------------------------------------------------------------------------------
       // PRE-ANALYSIS :  
@@ -71,15 +71,13 @@
       // POST-ANALYSIS: 
       //------------------------------------------------------------------------------------------------------------------------------
        //Exact Solution:
-         //setRealSolution(Coordinates,Elements,GaussPoints,Force,Error,Nelems,Ngauss);
+         setTotalError(REFINE,Coordinates,Elements,GaussPoints,Force,Dofs,Nnodes,Nelems,Ngauss,k);
 
        //Store Solution:
-         //saveModelData(Coordinates,Elements,Force,Dofs,Nnodes,Nelems);
+         saveModelData(REFINE,ITER,Coordinates,Elements,Force,Dofs,Nnodes,Nelems);
 
-       //Mesh Refiner:
+       //Mesh Refinement:
          setMeshRefiner(Coordinates,Elements,MeshRefine,Boundaries,Nnodes,Nelems,Nfaces);
-       //system("./Model/Refinement");
-         system("./Refinement");
 
        //Free Memory:
          freeModelData(Coordinates,Elements,GaussPoints,MeshRefine,Boundaries,Restraints,Dofs,Stiffness,Force,row,col,Nnodes,Nelems,Nfaces,Ngauss);
