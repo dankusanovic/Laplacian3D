@@ -12,7 +12,7 @@
   #ifndef SETANALYSIS_HH
   #define SETANALYSIS_HH
 
-   void setAnalysis(int, char **, int &);
+   void setAnalysis(int, char **, int &, double** &);
 
   #endif
 

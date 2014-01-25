@@ -23,7 +23,7 @@
   #include <sstream>
   #include <iostream>
 
-   void setAnalysis(int argc, char** argv, int &ITER){
+   void setAnalysis(int argc, char** argv, int &ITER, double** &REFINE){
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // INPUTS FILES TO BE LOADED: 
@@ -47,8 +47,24 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // GENERATES A BACKUP FILE:
 //------------------------------------------------------------------------------------------------------------------------------------
-     //system("cp ./Model/MeshData.txt ./Model/3d_refined.mesh3d");
      system("cp MeshData.txt 3d_refined.mesh3d");
+
+//------------------------------------------------------------------------------------------------------------------------------------
+// REFINEMENT INFORMATION:
+//------------------------------------------------------------------------------------------------------------------------------------
+   //Memory Allocation for Coordinates:
+     REFINE = new double* [ITER];
+
+     for(int i = 0; i < ITER; i++){
+         REFINE[i] = new double[3]; 
+     }
+
+   //Initialization of REFINE Vector:
+     for(int i = 0; i < ITER; i++){
+         for(int j =0; j <3; j++){
+             REFINE[i][j] = 0.0;
+         }
+     }
      
    }
 
