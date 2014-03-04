@@ -7,7 +7,8 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // Input       : ITER        : Number of iterations                               [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
-// Output      : Coordinates : List of coordinate values                          [Nnodes,3]
+// Output      : REFINE      : Number of iterations and Error                     [ITER,3]
+//               Coordinates : List of coordinate values                          [Nnodes,3]
 //               Elements    : List of elements values                            [Nelems,3]
 //               Solution    : Nodal Solution values                              [Nnodes,1]
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -21,26 +22,27 @@
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #include <iostream> 
-  #include "MUMPSSolver.hh"
+  #include "freeModel.hh"
   #include "setAnalysis.hh"
+  #include "MUMPSSolver.hh"
   #include "setModelData.hh"
   #include "setModelDofs.hh"
   #include "setTotalError.hh"
   #include "saveModelData.hh"
+  #include "allocateModel.hh"
   #include "freeModelData.hh"
   #include "setForceVector.hh"
   #include "setMeshRefiner.hh" 
-  #include "allocateModelData.hh"
   #include "setStiffnessMatrix.hh"
 
    int main(int argc, char** argv){
 
      int ITER;
      double **REFINE;
+
      setAnalysis(argc,argv,ITER,REFINE);
 
-     for(int k = 0; k < ITER; k++){
+     for(int i = 0; i < ITER; i++){
 
        //Model Dimension:
          int Nnodes, Nelems, Nfaces, Ngauss, Nfree, Nzeros;
@@ -55,7 +57,7 @@
        //Reads information:
          setModelData(Coordinates,Elements,Boundaries,MeshRefine,GaussPoints,Restraints,Nnodes,Nelems,Nfaces,Ngauss);
          setModelDofs(Elements,Restraints,Dofs,Nnodes,Nelems,Nfree,Nzeros);
-         allocateModelData(Stiffness,Force,row,col,Nfree,Nzeros);
+         allocateModel(Stiffness,Force,row,col,Nfree,Nzeros);
 
       //------------------------------------------------------------------------------------------------------------------------------
       // RUN-ANALYSIS :  
@@ -70,19 +72,21 @@
       //------------------------------------------------------------------------------------------------------------------------------
       // POST-ANALYSIS: 
       //------------------------------------------------------------------------------------------------------------------------------
-       //Exact Solution:
-         setTotalError(REFINE,Coordinates,Elements,GaussPoints,Force,Dofs,Nnodes,Nelems,Ngauss,k);
+       //Error Approximation:
+         setTotalError(REFINE,Coordinates,Elements,GaussPoints,Force,Dofs,Nnodes,Nelems,Ngauss,i);
 
-       //Store Solution:
+       //Save the Solution:
          saveModelData(REFINE,ITER,Coordinates,Elements,Force,Dofs,Nnodes,Nelems);
 
        //Mesh Refinement:
+         if(i < ITER - 1)
          setMeshRefiner(Coordinates,Elements,MeshRefine,Boundaries,Nnodes,Nelems,Nfaces);
 
        //Free Memory:
-         freeModelData(Coordinates,Elements,GaussPoints,MeshRefine,Boundaries,Restraints,Dofs,Stiffness,Force,row,col,Nnodes,Nelems,Nfaces,Ngauss);
-
-     }
+         freeModel(Dofs,Stiffness,Force,row,col,Nnodes,Nelems);
+         freeModelData(Coordinates,Elements,GaussPoints,MeshRefine,Boundaries,Restraints,Nnodes,Nelems,Nfaces,Ngauss);
+        
+     } 
 
      return 0;
 

@@ -1,18 +1,18 @@
 //====================================================================================================================================
-// HEADER FILE : "freeModelData"
+// HEADER FILE : "allocateModelData"
 //====================================================================================================================================
-// Syntax      : freeModelData(double** &, int** &, double** &, int** &, int** &, int* &, int, int, int, int);
+// Syntax      : allocateModelData(double** &, double** &, double** &, int, int, int)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Sets FEM Model of analysis. 
+// Purpose     : Memory allocation of model variables. 
 //====================================================================================================================================
-// Written by Danilo S. Kusanovic, December 2013
+// Written by Danilo S. Kusanovic, January 2014
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #ifndef FREEMODELDATA_HH
-  #define FREEMODELDATA_HH
+  #ifndef ALLOCATEMODEL_HH
+  #define ALLOCATEMODEL_HH
 
-   void freeModelData(double** &, int** &, double** &, int** &, int** &, int* &, int, int, int, int);
+   void allocateModel(double* &, double* &, int* &, int* &, int , int); 
 
   #endif
 

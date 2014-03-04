@@ -1,8 +1,7 @@
 //====================================================================================================================================
 // IMPLEMENTATION FILE: "freeModelData"
 //====================================================================================================================================
-// Syntax      : freeModelData(Coordinates, Elements, GaussPoints, Restraints, Constraints, Dofs, Stiffness, Force, row, col, Nnodes, 
-//                             Nelems, Ngauss, Nrestr, Nconst)
+// Syntax      : freeModelData(Coordinates,Elements,GaussPoints,MeshRefine,Boundaries,Restraints,Nnodes,Nelems,Nfaces,Ngauss)
 //------------------------------------------------------------------------------------------------------------------------------------
 // Purpose     : Frees FEM variables of the analyzed Model. 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -10,11 +9,6 @@
 //               Elements    : List of elements values                            [Nelems,3]
 //               GaussPoints : List of Gauss Integration values                   [Ngauss,3]
 //               Restraints  : Restrained nodal values                            [Nrestr,3]
-//               Dofs        : Free degree of freedom numbering                   [Nnodes,1]
-//               Stiffness   : List of Stiffness values                           [Nzeros,1]
-//               Force       : Force vector values                                [Nnodes,1]
-//               row         : List of indeces i for the K matrix                 [Nelems,1]
-//               col         : List of indeces j for the K matrix                 [Nelems,1]
 //               Nnodes      : Number of total nodes                              [1,1] 
 //               Nelems      : Number of total elements                           [1,1] 
 //               Nrestr      : Number of restrained nodes                         [1,1]
@@ -23,10 +17,6 @@
 //               Elements    : Cleaned up list of element values                  [0,0]
 //               GaussPoints : Cleaned up list of Gauss Integration values        [0,0]
 //               Restraints  : Cleaned up list of Restrained values               [0,0]
-//               Stiffness   : Cleaned up list of Stiffness values                [0,0]
-//               Force       : Cleaned up list of Force values                    [0,0]
-//               row         : Cleaned up list of indeces i for the K matrix      [0,0]
-//               col         : Cleaned up list of indeces j for the K matrix      [0,0]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Folder      : 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -41,8 +31,7 @@
   #include <iostream>
   
    void freeModelData(double** &Coordinates, int** &Elements, double** &GaussPoints, int** &MeshRefine, int** &Boundaries, 
-                      int* &Restraints, int* &Dofs, double* &Stiffness, double* &Force, int* &row, int* &col, int Nnodes, 
-                      int Nelems, int Nfaces, int Ngauss){ 
+                      int* &Restraints, int Nnodes, int Nelems, int Nfaces, int Ngauss){ 
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // FREE COORDINATES DATA: 
@@ -83,23 +72,6 @@
           delete[] Boundaries[i]; 
      }
      delete[] Boundaries;
-
-//------------------------------------------------------------------------------------------------------------------------------------
-// FREE DOFS VECTOR DATA: 
-//------------------------------------------------------------------------------------------------------------------------------------
-     delete[] Dofs;
-
-//------------------------------------------------------------------------------------------------------------------------------------
-// FREE STIFFNESS MATRIX DATA:
-//------------------------------------------------------------------------------------------------------------------------------------
-     delete[] row;
-     delete[] col;
-     delete[] Stiffness;
-
-//------------------------------------------------------------------------------------------------------------------------------------
-// FREE FORCE VECTOR DATA: 
-//------------------------------------------------------------------------------------------------------------------------------------
-     delete[] Force;
 
 //------------------------------------------------------------------------------------------------------------------------------------
 // FREE RESTRAINT DATA: 
