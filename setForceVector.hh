@@ -3,18 +3,18 @@
 //====================================================================================================================================
 // Syntax      : setForceVector(double** &, int** &, double** &, double* &, int* &, int, int, int)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Computes the rigth hand side (vector force). 
+// Purpose     : Computes the rigth hand side (vector force).
 //====================================================================================================================================
 // Written by Danilo S. Kusanovic, December 2013
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #ifndef SETFORCEVECTOR_HH
-  #define SETFORCEVECTOR_HH
+#ifndef SETFORCEVECTOR_HH
+#define SETFORCEVECTOR_HH
 
-   void setForceVector(double** &, int** &, double** &, double* &, int* &, int, int, int);
+void setForceVector(double** &, int** &, double** &,double* &, int* &, int, int);
 
-  #endif
+#endif
 
 //====================================================================================================================================
 // EOF
