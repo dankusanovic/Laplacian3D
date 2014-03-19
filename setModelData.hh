@@ -3,18 +3,18 @@
 //====================================================================================================================================
 // Syntax      : setModelData(double** &, double** &, double** &, int, int, int)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Frees FEM variables of the analyzed Model. 
+// Purpose     : Frees FEM variables of the analyzed Model.
 //====================================================================================================================================
 // Written by Danilo S. Kusanovic, December 2013
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #ifndef SETMODELDATA_HH
-  #define SETMODELDATA_HH
+#ifndef SETMODELDATA_HH
+#define SETMODELDATA_HH
 
-   void setModelData(double** &, int** &, int** &, int** &, double ** &, int* &, int &, int &, int &, int &);
+void setModelData(double** &, int** &, int** &, int** &, int** &, double ** &, int* &, int &, int &, int &, int &, double* &);
 
-  #endif
+#endif
 
 //====================================================================================================================================
 // EOF
