@@ -3,18 +3,18 @@
 //====================================================================================================================================
 // Syntax      : allocateModelData(double** &, double** &, double** &, int, int, int)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Memory allocation of model variables. 
+// Purpose     : Memory allocation of model variables.
 //====================================================================================================================================
 // Written by Danilo S. Kusanovic, January 2014
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #ifndef ALLOCATEMODEL_HH
-  #define ALLOCATEMODEL_HH
+#ifndef ALLOCATEMODEL_HH
+#define ALLOCATEMODEL_HH
 
-   void allocateModel(double* &, double* &, int* &, int* &, int , int); 
+void allocateModel(double* &, double* &, int* &, int* &, int , int);
 
-  #endif
+#endif
 
 //====================================================================================================================================
 // EOF

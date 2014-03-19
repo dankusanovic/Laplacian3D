@@ -3,22 +3,22 @@
 //====================================================================================================================================
 // Syntax      : setModelDofs(Elements,Restraints,Dofs,Nnodes,Nelems,Nrestr,Nfree,Nzeros)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Determines the free degree of freedom and re-number such degrees. 
+// Purpose     : Determines the free degree of freedom and re-number such degrees.
 //------------------------------------------------------------------------------------------------------------------------------------
 // Input       : Elements    : List of elements values                           [Nelems,3]
 //               Restraints  : Restrained nodal values                           [Nrestr,3]
 //               Dofs        : Free degree of freedom numbering                  [Nnodes,1]
-//               Nnodes      : Number of total nodes                             [1,1] 
-//               Nelems      : Number of total elements                          [1,1] 
+//               Nnodes      : Number of total nodes                             [1,1]
+//               Nelems      : Number of total elements                          [1,1]
 //               Nrestr      : Number of restrained nodes                        [1,1]
-//               Nfree       : Number of free nodes                              [1,1] 
+//               Nfree       : Number of free nodes                              [1,1]
 //               Nzeros      : Number of nonzero values for stiffness matrix     [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Output      : Dofs        : Updated free degree of freedom numbering          [Nnodes,1]
-//               Nfree       : Number of free nodes                              [1,1] 
+//               Nfree       : Number of free nodes                              [1,1]
 //               Nzeros      : Number of nonzero values for stiffness matrix     [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
-// Folder      : 
+// Folder      :
 //------------------------------------------------------------------------------------------------------------------------------------
 // Description : <Free Degree of Freedom>
 // Keywords    : <Free,dofs>
@@ -28,58 +28,59 @@
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-   void setModelDofs(int** &Elements, int* &Restraints, int* &Dofs, int Nnodes, int Nelems, int &Nfree, int &Nzeros){
+void setModelDofs(int** &Elements, int* &Restraints, int* &Dofs, int Nnodes, int Nelems, int &Nfree, int &Nzeros) {
 
-         int count = 0; Nzeros = 0;
- 
-      //------------------------------------------------------------------------------------------------------------------------------------
-      // ALLOCATES DOFS VECTOR DATA: 
-      //------------------------------------------------------------------------------------------------------------------------------------
-         Dofs = new int[Nnodes];
+    int count = 0;
+    Nzeros = 0;
 
-         for(int i = 0; i < Nnodes; i++){
-             Dofs[i] = 0;
-         }
+    //------------------------------------------------------------------------------------------------------------------------------------
+    // ALLOCATES DOFS VECTOR DATA:
+    //------------------------------------------------------------------------------------------------------------------------------------
+    Dofs = new int[Nnodes];
 
-      //------------------------------------------------------------------------------------------------------------------------------
-      // TOTAL DEGREE OF FREEDOMS:
-      //------------------------------------------------------------------------------------------------------------------------------
-         for(int i = 0; i < Nnodes; i++){
+    for(int i = 0; i < Nnodes; i++) {
+        Dofs[i] = 0;
+    }
 
-           //Updated Restrained Dofs:
-	     switch(Restraints[i]){
-		 case 0: {
-		          Dofs[i] = count;
-                          count = count + 1;
-		          break;
-			 }
+    //------------------------------------------------------------------------------------------------------------------------------
+    // TOTAL DEGREE OF FREEDOMS:
+    //------------------------------------------------------------------------------------------------------------------------------
+    for(int i = 0; i < Nnodes; i++) {
 
-		 case 1: {
-		          Dofs[i] = -1;
-		          break;
-			 }
-	     }
+        //Updated Restrained Dofs:
+        switch(Restraints[i]) {
+        case 0: {
+            Dofs[i] = count;
+            count = count + 1;
+            break;
+        }
 
-         }
+        case 1: {
+            Dofs[i] = -1;
+            break;
+        }
+        }
 
-         Nfree = count;
+    }
 
-      //------------------------------------------------------------------------------------------------------------------------------
-      // NONZERO MATRIX VALUES:
-      //------------------------------------------------------------------------------------------------------------------------------
-         for(int i = 0; i < Nelems; i++){
+    Nfree = count;
 
-             count = 0;
-             for(int j = 0; j < 4; j++){
-                 if(Dofs[Elements[i][j]] != -1){
-                    count = count + 1;
-                 }
-             }
+    //------------------------------------------------------------------------------------------------------------------------------
+    // NONZERO MATRIX VALUES:
+    //------------------------------------------------------------------------------------------------------------------------------
+    for(int i = 0; i < Nelems; i++) {
 
-             Nzeros = Nzeros + count*count;
-         }
+        count = 0;
+        for(int j = 0; j < 4; j++) {
+            if(Dofs[Elements[i][j]] != -1) {
+                count = count + 1;
+            }
+        }
 
-   } 
+        Nzeros = Nzeros + count*count;
+    }
+
+}
 
 //====================================================================================================================================
 // EOF

@@ -3,13 +3,13 @@
 //====================================================================================================================================
 // Syntax      : allocateModelData(Stiffness,Force,row,col,Nfree,Nzeros)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Memory allocation of model variables. 
+// Purpose     : Memory allocation of model variables.
 //------------------------------------------------------------------------------------------------------------------------------------
 // Input       : Stiffness   : List of Stiffness values                           [Nzeros,1]
 //               Force       : Force vector                                       [Nfree,1]
 //               row         : List of indeces i for the K matrix                 [Nzeros,1]
 //               col         : List of indeces j for the K matrix                 [Nzeros,1]
-//               Nfree       : Number of free nodes                               [1,1] 
+//               Nfree       : Number of free nodes                               [1,1]
 //               Nzeros      : Number of nonzero values for stiffness matrix      [1,1]
 //------------------------------------------------------------------------------------------------------------------------------------
 // Output      : Stiffness   : List of Stiffness values                           [Nzeros,1]
@@ -17,7 +17,7 @@
 //               row         : List of indeces i for the K matrix                 [Nzeros,1]
 //               col         : List of indeces j for the K matrix                 [Nzeros,1]
 //------------------------------------------------------------------------------------------------------------------------------------
-// Folder      : 
+// Folder      :
 //------------------------------------------------------------------------------------------------------------------------------------
 // Description : <Sets model memory allocation>
 // Keywords    : <stiffness, force, memory allocation>
@@ -27,33 +27,33 @@
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #include <cstdlib>
-  
-   void allocateModelData(double* &Stiffness, double* &Force, int* &row, int* &col, int Nfree, int Nzeros){ 
+#include <cstdlib>
+
+void allocateModelData(double* &Stiffness, double* &Force, int* &row, int* &col, int Nfree, int Nzeros) {
 
 //------------------------------------------------------------------------------------------------------------------------------------
-// ALLOCATES FORCE VECTOR DATA: 
+// ALLOCATES FORCE VECTOR DATA:
 //------------------------------------------------------------------------------------------------------------------------------------
-     Force = new double[Nfree];
+    Force = new double[Nfree];
 
-   //Initialization of Force Vector:
-     for(int i = 0; i < Nfree; i++){
-         Force[i] = 0.0;
-     }
+    //Initialization of Force Vector:
+    for(int i = 0; i < Nfree; i++) {
+        Force[i] = 0.0;
+    }
 
 //------------------------------------------------------------------------------------------------------------------------------------
-// ALLOCATES STIFFNESS MATRIX DATA: 
+// ALLOCATES STIFFNESS MATRIX DATA:
 //------------------------------------------------------------------------------------------------------------------------------------
-     row       = new int[Nzeros];
-     col       = new int[Nzeros]; 
-     Stiffness = new double[Nzeros];
+    row       = new int[Nzeros];
+    col       = new int[Nzeros];
+    Stiffness = new double[Nzeros];
 
-   //Initialization of Stiffness Matrix:
-     for(int i = 0; i < Nzeros; i++){
-         Stiffness[i] = 0.0;
-     }
+    //Initialization of Stiffness Matrix:
+    for(int i = 0; i < Nzeros; i++) {
+        Stiffness[i] = 0.0;
+    }
 
-   }
+}
 
 //====================================================================================================================================
 // EOF

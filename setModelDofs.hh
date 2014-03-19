@@ -3,18 +3,18 @@
 //====================================================================================================================================
 // Syntax      : setModelDofs(int** &, int** &, int* &, int, int, int, int &, int &)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Determines the free degree of freedom in a vector. 
+// Purpose     : Determines the free degree of freedom in a vector.
 //====================================================================================================================================
 // Written by Danilo S. Kusanovic, January 2014
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #ifndef SETMODELDOFS_HH
-  #define SETMODELDOFS_HH 
+#ifndef SETMODELDOFS_HH
+#define SETMODELDOFS_HH
 
-   void setModelDofs(int** &, int* &, int* &, int , int , int &, int &);
+void setModelDofs(int** &, int* &, int* &, int , int , int &, int &);
 
-  #endif
+#endif
 
 //====================================================================================================================================
 // EOF

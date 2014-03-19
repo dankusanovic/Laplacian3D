@@ -3,18 +3,18 @@
 //====================================================================================================================================
 // Syntax      : setStiffnessMatrix(double** &, int** &, double* &, int* &, int* &, int)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Computes the stiffness matrix (k matrix). 
+// Purpose     : Computes the stiffness matrix (k matrix).
 //====================================================================================================================================
 // Written by Danilo S. Kusanovic, December 2013
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #ifndef SETSTIFFNESSMATRIX_HH
-  #define SETSTIFFNESSMATRIX_HH
+#ifndef SETSTIFFNESSMATRIX_HH
+#define SETSTIFFNESSMATRIX_HH
 
-   void setStiffnessMatrix(double** &, int** &, double* &, int* &, int* &, int* &, int);
+void setStiffnessMatrix(double** &, int** &, double* &, int* &, int* &, int* &, int);
 
-  #endif
+#endif
 
 //====================================================================================================================================
 // EOF

@@ -3,7 +3,7 @@
 //====================================================================================================================================
 // Syntax      : setStiffnessMatrix(Coordinates, Elements, Stiffness,row,col,Nelems)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Computes the stiffness matrix. 
+// Purpose     : Computes the stiffness matrix.
 //------------------------------------------------------------------------------------------------------------------------------------
 // Input       : Coordinates : List of coordinate values                          [Nnodes,3]
 //               Elements    : List of elements values                            [Nelems,3]
@@ -15,7 +15,7 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // Output      : Stiffness   : Stiffness matrix values                            [Nelems,1]
 //------------------------------------------------------------------------------------------------------------------------------------
-// Folder      : 
+// Folder      :
 //------------------------------------------------------------------------------------------------------------------------------------
 // Description : <Stiffness Matrix>
 // Keywords    : <Stiffness,Assembly>
@@ -25,102 +25,110 @@
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #include <cmath>
+#include <cmath>
 
-   void setStiffnessMatrix(double** &Coordinates, int** &Elements, double* &Stiffness, int* &row, int* &col, int* &Dofs, int Nelems){
-                                     
-   //Element properties:
-     int    DOFi, DOFj;
-     double Volume, nx[4], ny[4], nz[4];
-     double ux, uy, uz, vx, vy, vz, wx, wy, wz;
+void setStiffnessMatrix(double** &Coordinates, int** &Elements, double* &Stiffness, int* &row, int* &col, int* &Dofs, int Nelems) {
 
-     int count = 0;
-     for(int k = 0; k < Nelems; k++){
+    //Element properties:
+    int    DOFi, DOFj;
+    double Volume, nx[4], ny[4], nz[4];
+    double ux, uy, uz, vx, vy, vz, wx, wy, wz;
 
-      //------------------------------------------------------------------------------------------------------------------------------
-      // LOCAL NORMAL VECTOR COMPUTATION:
-      //------------------------------------------------------------------------------------------------------------------------------
-         ux = Coordinates[Elements[k][3]][0] - Coordinates[Elements[k][1]][0];
-         uy = Coordinates[Elements[k][3]][1] - Coordinates[Elements[k][1]][1];
-         uz = Coordinates[Elements[k][3]][2] - Coordinates[Elements[k][1]][2];
+    int count = 0;
+    for(int k = 0; k < Nelems; k++) {
 
-         vx = Coordinates[Elements[k][2]][0] - Coordinates[Elements[k][1]][0];
-         vy = Coordinates[Elements[k][2]][1] - Coordinates[Elements[k][1]][1];
-         vz = Coordinates[Elements[k][2]][2] - Coordinates[Elements[k][1]][2];
+        //------------------------------------------------------------------------------------------------------------------------------
+        // LOCAL NORMAL VECTOR COMPUTATION:
+        //------------------------------------------------------------------------------------------------------------------------------
+        ux = Coordinates[Elements[k][3]][0] - Coordinates[Elements[k][1]][0];
+        uy = Coordinates[Elements[k][3]][1] - Coordinates[Elements[k][1]][1];
+        uz = Coordinates[Elements[k][3]][2] - Coordinates[Elements[k][1]][2];
 
-         nx[0] = (uy*vz - vy*uz)/2; ny[0] = (uz*vx - vz*ux)/2; nz[0] = (ux*vy - vx*uy)/2;
+        vx = Coordinates[Elements[k][2]][0] - Coordinates[Elements[k][1]][0];
+        vy = Coordinates[Elements[k][2]][1] - Coordinates[Elements[k][1]][1];
+        vz = Coordinates[Elements[k][2]][2] - Coordinates[Elements[k][1]][2];
 
-         ux = Coordinates[Elements[k][2]][0] - Coordinates[Elements[k][0]][0];
-         uy = Coordinates[Elements[k][2]][1] - Coordinates[Elements[k][0]][1];
-         uz = Coordinates[Elements[k][2]][2] - Coordinates[Elements[k][0]][2];
+        nx[0] = (uy*vz - vy*uz)/2;
+        ny[0] = (uz*vx - vz*ux)/2;
+        nz[0] = (ux*vy - vx*uy)/2;
 
-         vx = Coordinates[Elements[k][3]][0] - Coordinates[Elements[k][0]][0];
-         vy = Coordinates[Elements[k][3]][1] - Coordinates[Elements[k][0]][1];
-         vz = Coordinates[Elements[k][3]][2] - Coordinates[Elements[k][0]][2];
+        ux = Coordinates[Elements[k][2]][0] - Coordinates[Elements[k][0]][0];
+        uy = Coordinates[Elements[k][2]][1] - Coordinates[Elements[k][0]][1];
+        uz = Coordinates[Elements[k][2]][2] - Coordinates[Elements[k][0]][2];
 
-         nx[1] = (uy*vz - vy*uz)/2; ny[1] = (uz*vx - vz*ux)/2; nz[1] = (ux*vy - vx*uy)/2;
+        vx = Coordinates[Elements[k][3]][0] - Coordinates[Elements[k][0]][0];
+        vy = Coordinates[Elements[k][3]][1] - Coordinates[Elements[k][0]][1];
+        vz = Coordinates[Elements[k][3]][2] - Coordinates[Elements[k][0]][2];
 
-         ux = Coordinates[Elements[k][3]][0] - Coordinates[Elements[k][0]][0];
-         uy = Coordinates[Elements[k][3]][1] - Coordinates[Elements[k][0]][1];
-         uz = Coordinates[Elements[k][3]][2] - Coordinates[Elements[k][0]][2];
+        nx[1] = (uy*vz - vy*uz)/2;
+        ny[1] = (uz*vx - vz*ux)/2;
+        nz[1] = (ux*vy - vx*uy)/2;
 
-         vx = Coordinates[Elements[k][1]][0] - Coordinates[Elements[k][0]][0];
-         vy = Coordinates[Elements[k][1]][1] - Coordinates[Elements[k][0]][1];
-         vz = Coordinates[Elements[k][1]][2] - Coordinates[Elements[k][0]][2];
+        ux = Coordinates[Elements[k][3]][0] - Coordinates[Elements[k][0]][0];
+        uy = Coordinates[Elements[k][3]][1] - Coordinates[Elements[k][0]][1];
+        uz = Coordinates[Elements[k][3]][2] - Coordinates[Elements[k][0]][2];
 
-         nx[2] = (uy*vz - vy*uz)/2; ny[2] = (uz*vx - vz*ux)/2; nz[2] = (ux*vy - vx*uy)/2;
+        vx = Coordinates[Elements[k][1]][0] - Coordinates[Elements[k][0]][0];
+        vy = Coordinates[Elements[k][1]][1] - Coordinates[Elements[k][0]][1];
+        vz = Coordinates[Elements[k][1]][2] - Coordinates[Elements[k][0]][2];
 
-         ux = Coordinates[Elements[k][1]][0] - Coordinates[Elements[k][0]][0];
-         uy = Coordinates[Elements[k][1]][1] - Coordinates[Elements[k][0]][1];
-         uz = Coordinates[Elements[k][1]][2] - Coordinates[Elements[k][0]][2];
+        nx[2] = (uy*vz - vy*uz)/2;
+        ny[2] = (uz*vx - vz*ux)/2;
+        nz[2] = (ux*vy - vx*uy)/2;
 
-         vx = Coordinates[Elements[k][2]][0] - Coordinates[Elements[k][0]][0];
-         vy = Coordinates[Elements[k][2]][1] - Coordinates[Elements[k][0]][1];
-         vz = Coordinates[Elements[k][2]][2] - Coordinates[Elements[k][0]][2];
+        ux = Coordinates[Elements[k][1]][0] - Coordinates[Elements[k][0]][0];
+        uy = Coordinates[Elements[k][1]][1] - Coordinates[Elements[k][0]][1];
+        uz = Coordinates[Elements[k][1]][2] - Coordinates[Elements[k][0]][2];
 
-         nx[3] = (uy*vz - vy*uz)/2; ny[3] = (uz*vx - vz*ux)/2; nz[3] = (ux*vy - vx*uy)/2;
+        vx = Coordinates[Elements[k][2]][0] - Coordinates[Elements[k][0]][0];
+        vy = Coordinates[Elements[k][2]][1] - Coordinates[Elements[k][0]][1];
+        vz = Coordinates[Elements[k][2]][2] - Coordinates[Elements[k][0]][2];
 
-      //------------------------------------------------------------------------------------------------------------------------------
-      // LOCAL ELEMENT VOLUME COMPUTATION:
-      //------------------------------------------------------------------------------------------------------------------------------
-         ux = Coordinates[Elements[k][1]][0] - Coordinates[Elements[k][3]][0];
-	 uy = Coordinates[Elements[k][1]][1] - Coordinates[Elements[k][3]][1];
-	 uz = Coordinates[Elements[k][1]][2] - Coordinates[Elements[k][3]][2];
+        nx[3] = (uy*vz - vy*uz)/2;
+        ny[3] = (uz*vx - vz*ux)/2;
+        nz[3] = (ux*vy - vx*uy)/2;
 
-	 vx = Coordinates[Elements[k][2]][0] - Coordinates[Elements[k][3]][0];
-	 vy = Coordinates[Elements[k][2]][1] - Coordinates[Elements[k][3]][1];
-	 vz = Coordinates[Elements[k][2]][2] - Coordinates[Elements[k][3]][2];
+        //------------------------------------------------------------------------------------------------------------------------------
+        // LOCAL ELEMENT VOLUME COMPUTATION:
+        //------------------------------------------------------------------------------------------------------------------------------
+        ux = Coordinates[Elements[k][1]][0] - Coordinates[Elements[k][3]][0];
+        uy = Coordinates[Elements[k][1]][1] - Coordinates[Elements[k][3]][1];
+        uz = Coordinates[Elements[k][1]][2] - Coordinates[Elements[k][3]][2];
 
-         wx = Coordinates[Elements[k][0]][0] - Coordinates[Elements[k][3]][0];
-         wy = Coordinates[Elements[k][0]][1] - Coordinates[Elements[k][3]][1];
-         wz = Coordinates[Elements[k][0]][2] - Coordinates[Elements[k][3]][2];
+        vx = Coordinates[Elements[k][2]][0] - Coordinates[Elements[k][3]][0];
+        vy = Coordinates[Elements[k][2]][1] - Coordinates[Elements[k][3]][1];
+        vz = Coordinates[Elements[k][2]][2] - Coordinates[Elements[k][3]][2];
 
-         Volume = 1.5*(wx*(uy*vz - vy*uz) + wy*(uz*vx - vz*ux) + wz*(ux*vy - vx*uy));
+        wx = Coordinates[Elements[k][0]][0] - Coordinates[Elements[k][3]][0];
+        wy = Coordinates[Elements[k][0]][1] - Coordinates[Elements[k][3]][1];
+        wz = Coordinates[Elements[k][0]][2] - Coordinates[Elements[k][3]][2];
 
-      //------------------------------------------------------------------------------------------------------------------------------
-      // COMPUTES LOCAL ELEMENT STIFFNESS MATRIX:
-      //------------------------------------------------------------------------------------------------------------------------------
-         for(int i = 0; i < 4; i++){
-             DOFi = Dofs[Elements[k][i]]; 
+        Volume = 1.5*(wx*(uy*vz - vy*uz) + wy*(uz*vx - vz*ux) + wz*(ux*vy - vx*uy));
 
-             for(int j = 0; j < 4; j++){
-                 DOFj = Dofs[Elements[k][j]];
+        //------------------------------------------------------------------------------------------------------------------------------
+        // COMPUTES LOCAL ELEMENT STIFFNESS MATRIX:
+        //------------------------------------------------------------------------------------------------------------------------------
+        for(int i = 0; i < 4; i++) {
+            DOFi = Dofs[Elements[k][i]];
 
-                 if(DOFi != -1 && DOFj != -1){
-	          //COO Stiffness Matix format:
-		    row[count]       = DOFi + 1;
-		    col[count]       = DOFj + 1;
-		    Stiffness[count] = (nx[i]*nx[j] + ny[i]*ny[j] + nz[i]*nz[j])/Volume;
+            for(int j = 0; j < 4; j++) {
+                DOFj = Dofs[Elements[k][j]];
 
-		  //Increases index for COO format:
-		    count = count + 1;
-                 }
-             }
-         }
+                if(DOFi != -1 && DOFj != -1) {
+                    //COO Stiffness Matix format:
+                    row[count]       = DOFi + 1;
+                    col[count]       = DOFj + 1;
+                    Stiffness[count] = (nx[i]*nx[j] + ny[i]*ny[j] + nz[i]*nz[j])/Volume;
 
-     }
+                    //Increases index for COO format:
+                    count = count + 1;
+                }
+            }
+        }
 
-   } 
+    }
+
+}
 
 //====================================================================================================================================
 // EOF
