@@ -4,6 +4,8 @@
 3d_refined.mesh3d
 3d_original.mesh3d
 
+#Result files
+Results/*
 
 # Bin file
 Laplacian3D
