@@ -1,5 +1,9 @@
 #Temp files
 *~
+#Mesh files
+3d_refined.mesh3d
+3d_original.mesh3d
+
 
 # Bin file
 Laplacian3D
