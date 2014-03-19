@@ -11,7 +11,6 @@ INCLUDEPATH += /usr/include/mumps_seq
 # Input
 HEADERS += allocateModel.hh \
            allocateModelData.hh \
-           getAdjacency.hh \
            MUMPSSolver.hh \
            saveModelData.hh \
            setAnalysis.hh \
