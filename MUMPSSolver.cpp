@@ -3,7 +3,7 @@
 //====================================================================================================================================
 // Syntax      : MUMPSSolver(Nfree, Nzeros, row, col, Stiffness, Force, sym)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Computes the vector solution for K*x = F. 
+// Purpose     : Computes the vector solution for K*x = F.
 //------------------------------------------------------------------------------------------------------------------------------------
 // Input       : Nfree       : Number of unknowns                                 [1,1]
 //               Nzeros      : Number of components in COO format                 [1,1]
@@ -14,7 +14,7 @@
 //------------------------------------------------------------------------------------------------------------------------------------
 // Output      : Force       : Solution vector values                             [Nfree,1]
 //------------------------------------------------------------------------------------------------------------------------------------
-// Folder      : 
+// Folder      :
 //------------------------------------------------------------------------------------------------------------------------------------
 // Description : <Solves linear system>
 // Keywords    : <solver,Mumps,configuration>
@@ -23,53 +23,53 @@
 // Written by Danilo S. Kusanovic, December 2013
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
- 
-  #include "dmumps_c.h"
-  #include "MUMPSSolver.hh"
 
-   void MUMPSSolver(int Nfree, int Nzeros, int* &row, int* &col, double* &Stiffness, double* &Force, unsigned int sym){
+#include <dmumps_c.h>
+#include "MUMPSSolver.hh"
 
-//------------------------------------------------------------------------------------------------------------------------------------
-// INITIALIZES MUMPS SOLVER: 
-//------------------------------------------------------------------------------------------------------------------------------------
-     DMUMPS_STRUC_C Model;
-
-     Model.par = 1; 
-     Model.sym = sym;
-     Model.comm_fortran = USE_COMM_WORLD;
-     
-   //Initialize a MUMPS instance
-     Model.job = JOB_INIT;
-     dmumps_c(&Model);
+void MUMPSSolver(int Nfree, int Nzeros, int* &row, int* &col, double* &Stiffness, double* &Force, unsigned int sym) {
 
 //------------------------------------------------------------------------------------------------------------------------------------
-// DEFINES THE PROBLEM ON THE HOST: 
+// INITIALIZES MUMPS SOLVER:
 //------------------------------------------------------------------------------------------------------------------------------------
-     Model.n   = Nfree; 
-     Model.nz  = Nzeros;
-     Model.irn = row; 
-     Model.jcn = col;
-     Model.a   = Stiffness; 
-     Model.rhs = Force;
+    DMUMPS_STRUC_C Model;
 
-   //No outputs Messages: Erros, warnings.
-     Model.ICNTL(1)  = 0; 
-     Model.ICNTL(2)  = 0; 
-     Model.ICNTL(3)  = 0; 
-     Model.ICNTL(4)  = 0;
+    Model.par = 1;
+    Model.sym = sym;
+    Model.comm_fortran = USE_COMM_WORLD;
 
-   //Percentage increase in the estimated working space.
-     Model.ICNTL(14) = 50;
+    //Initialize a MUMPS instance
+    Model.job = JOB_INIT;
+    dmumps_c(&Model);
 
-   //Calling the MUMPS package:
-     Model.job = 6;
-     dmumps_c(&Model);
+//------------------------------------------------------------------------------------------------------------------------------------
+// DEFINES THE PROBLEM ON THE HOST:
+//------------------------------------------------------------------------------------------------------------------------------------
+    Model.n   = Nfree;
+    Model.nz  = Nzeros;
+    Model.irn = row;
+    Model.jcn = col;
+    Model.a   = Stiffness;
+    Model.rhs = Force;
 
-   //Terminate a MUMPS instance:
-     Model.job = JOB_END; 
-     dmumps_c(&Model); 
+    //No outputs Messages: Erros, warnings.
+    Model.ICNTL(1)  = 0;
+    Model.ICNTL(2)  = 0;
+    Model.ICNTL(3)  = 0;
+    Model.ICNTL(4)  = 0;
 
-   }
+    //Percentage increase in the estimated working space.
+    Model.ICNTL(14) = 50;
+
+    //Calling the MUMPS package:
+    Model.job = 6;
+    dmumps_c(&Model);
+
+    //Terminate a MUMPS instance:
+    Model.job = JOB_END;
+    dmumps_c(&Model);
+
+}
 
 //====================================================================================================================================
 // EOF
