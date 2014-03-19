@@ -3,18 +3,18 @@
 //====================================================================================================================================
 // Syntax      : saveModelData(double** &, double** &, double** &, int, int, int)
 //------------------------------------------------------------------------------------------------------------------------------------
-// Purpose     : Frees FEM variables of the analyzed Model. 
+// Purpose     : Frees FEM variables of the analyzed Model.
 //====================================================================================================================================
 // Written by Danilo S. Kusanovic, December 2013
 // Last revised by D.S Kusanovic.
 //====================================================================================================================================
 
-  #ifndef SAVEMODELDATA_HH
-  #define SAVEMODELDATA_HH
+#ifndef SAVEMODELDATA_HH
+#define SAVEMODELDATA_HH
 
-   void saveModelData(double** &, int , double** &, int** &, double* &, int* &, int, int);
+void saveModelData(double** &, int , double** &, int** &, double* &, int* &, int, int);
 
-  #endif
+#endif
 
 //====================================================================================================================================
 // EOF
