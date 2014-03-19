@@ -1,5 +1,6 @@
 #Temp files
 *~
+*.swp
 #Mesh files
 3d_refined.mesh3d
 3d_original.mesh3d
@@ -9,6 +10,8 @@ Results/*
 
 # Bin file
 Laplacian3D
+#QT user dependent file
+Laplacian3D.pro.user
 
 # Object files
 *.o
